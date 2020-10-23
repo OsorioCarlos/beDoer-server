@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTagUserTable extends Migration
+class CreateTagTaskTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateTagUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('tag_user', function (Blueprint $table) {
+        Schema::create('tag_task', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tag_id')->constrained('tags');
+            $table->foreignId('task_id')->constrained('tasks');
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateTagUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tag_user');
+        Schema::dropIfExists('tag_task');
     }
 }
