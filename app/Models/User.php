@@ -40,4 +40,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+//    metodos de orm
+    public function tasks(){
+        return $this->hasMany(Task::class);
+    }
+
+    public function members(){
+        return $this->belongsToMany(Member::class);
+    }
 }
