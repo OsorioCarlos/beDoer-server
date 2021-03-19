@@ -14,17 +14,17 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $tags = Tag::get();
+        return response()->json([
+            'data' => [
+                'tags' => $tags
+            ],
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ]);
     }
 
     /**
@@ -35,7 +35,20 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->json()->all();
+
+        $tag = new Tag();
+        $tag->name = $data['name'];
+        $tag->color = $data['color'];
+        $tag->is_deleted = false;
+
+        $tag->save();
+
+        return response()->json([
+            'data' => [
+                'tag' => $tag
+            ]
+        ], 201);
     }
 
     /**
@@ -46,18 +59,10 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tag $tag)
-    {
-        //
+        return response()->json([
+            'data' => [
+                'tags' => $tag
+            ]], 200);
     }
 
     /**
@@ -69,7 +74,17 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        $data = $request->json()->all();
+
+        $tag->name = $data['name'];
+        $tag->color = $data['color'];
+
+        $tag->save();
+        return response()->json([
+            'data' => [
+                'tag' => $tag
+            ]
+        ], 201);
     }
 
     /**
@@ -80,6 +95,13 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->is_deleted = true;
+        $tag->save();
+
+        return response()->json([
+            'data' => [
+                'tag' => $tag
+            ]
+        ], 201);
     }
 }
