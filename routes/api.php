@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TeamController;
+use Brick\Math\Exception\RoundingNecessaryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +22,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('teams', TeamController::class);
+/* Route::apiResource('team', TeamController::class); */
+/* Rutas Task */
+Route::get("/tasks", [TaskController::class, 'index']);
+
+/* Rutas Team */
+Route::get("/teams", [TeamController::class, 'index']);
+
+/* Rutas Role */
+
+Route::get("/roles", [RoleController::class, 'index']);

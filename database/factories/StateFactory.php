@@ -23,6 +23,7 @@ class StateFactory extends Factory
     {
         return [
             //
+            'name' => $this->faker->randomElement(['Aqui ta carlos', 'aqui no ta :v']),
         ];
     }
 }
