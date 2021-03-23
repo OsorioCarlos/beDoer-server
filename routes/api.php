@@ -45,3 +45,6 @@ Route::delete("/role/{id}", [RoleController::class, 'destroy']);
 
 /* ruta para etiquetas */
 Route::apiResource('tags', TagController::class);
+
+/* ruta para usuarios */
+Route::apiResource('users', UserController::class);
