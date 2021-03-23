@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -39,6 +40,13 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
+        $role = new Role();
+        $role->name = $request->name;
+        $role->is_deleted = $request->is_deleted;
+
+        if ($role->save()) {
+            return new RoleResource($role);
+        }
     }
 
     /**
@@ -47,9 +55,11 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show($id)
     {
         //
+        $role = Role::findOrFail($id);
+        return new RoleResource($role);
     }
 
     /**
@@ -70,9 +80,16 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id)
     {
         //
+        $role = Role::findOrFail($id);
+        $role->name = $request->name;
+        $role->is_deleted = $request->is_deleted;
+
+        if ($role->save()) {
+            return new RoleResource($role);
+        }
     }
 
     /**
@@ -81,8 +98,13 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy($id)
     {
         //
+        $role = Role::findOrFail($id);
+
+        if ($role->delete()) {
+            return new RoleResource($role);
+        }
     }
 }

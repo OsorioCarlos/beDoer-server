@@ -33,6 +33,9 @@ Route::apiResource('categories', CategoryController::class);
 /* Rutas Task */
 Route::get("/tasks", [TaskController::class, 'index']);
 
-/* Rutas Role */
-
+/* Rutas Role  */
 Route::get("/roles", [RoleController::class, 'index']);
+Route::post("/role", [RoleController::class, 'store']);
+Route::get("/role/{id}", [RoleController::class, 'show']);
+Route::put("/role/{id}", [RoleController::class, 'update']);
+Route::delete("/role/{id}", [RoleController::class, 'destroy']);
