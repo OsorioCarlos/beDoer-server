@@ -39,6 +39,15 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         //
+        $team = new Team();
+        $team -> name = $request -> name;
+        $team -> description = $request -> description;
+        $team -> is_deleted = $request -> is_deleted;
+
+        if($team ->save()){
+            return new TeamResource($team);
+        }
+
     }
 
     /**
@@ -47,9 +56,11 @@ class TeamController extends Controller
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function show(Team $team)
+    public function show($id)
     {
         //
+        $team = Team::findOrFail($id);
+        return new TeamResource($team);
     }
 
     /**
@@ -70,9 +81,17 @@ class TeamController extends Controller
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Team $team)
+    public function update(Request $request, $id)
     {
         //
+        $team = Team::findOrFail($id);
+        $team -> name = $request -> name;
+        $team -> description = $request -> description;
+        $team -> is_deleted = $request -> is_deleted;
+
+        if($team->save()){
+            return new TeamResource($team);
+        }
     }
 
     /**
@@ -81,8 +100,13 @@ class TeamController extends Controller
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Team $team)
+    public function destroy($id)
     {
         //
+        $team = Team::findOrFail($id);
+
+        if($team->delete()){
+            return new TeamResource($team);
+        }
     }
 }
