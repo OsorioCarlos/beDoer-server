@@ -22,7 +22,9 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->name,
+            'color' => $this->hexcolor,
+            'is_deleted' => $this->boolean,
         ];
     }
 }

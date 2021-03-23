@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +27,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+/* Rutas Teams */
 Route::apiResource('teams', TeamController::class);
 
+/* Rutas Categories */
 Route::apiResource('categories', CategoryController::class);
 
 /* Rutas Task */
@@ -39,3 +42,6 @@ Route::post("/role", [RoleController::class, 'store']);
 Route::get("/role/{id}", [RoleController::class, 'show']);
 Route::put("/role/{id}", [RoleController::class, 'update']);
 Route::delete("/role/{id}", [RoleController::class, 'destroy']);
+
+/* ruta para etiquetas */
+Route::apiResource('tags', TagController::class);
