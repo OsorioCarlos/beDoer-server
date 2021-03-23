@@ -22,7 +22,15 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title' => $this->faker->company,
+            'description' => $this->faker->text($maxNbChars = 50),
+            'expiration_date' => $this->faker->dateTimeThisYear,
+            'state_id' =>  $this->faker->numberBetween($min = 10, $max = 20),
+            'created_by' =>  $this->faker->numberBetween($min = 10, $max = 20),
+            'teamspace' =>  $this->faker->numberBetween($min = 10, $max = 20),
+            'is_deleted' => $this->boolean,
+
+
 
         ];
     }
