@@ -82,7 +82,7 @@ class TagController extends Controller
         return response()->json([
             'tags' => $tag
         ]);
-        
+
         // return response()->json([
         //     'data' => [
         //         'tags' => $tag

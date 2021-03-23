@@ -9,16 +9,14 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
-        $role = Role::paginate(10);
-        return RoleResource::collection($role);
+
+        $roles = Role::all();
+        return response()->json([
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -31,35 +29,30 @@ class RoleController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
-        $role = new Role();
-        $role->name = $request->name;
-        $role->is_deleted = $request->is_deleted;
+        $data = $request->json()->all();
 
-        if ($role->save()) {
-            return new RoleResource($role);
-        }
+        $role = new Role();
+        $role->name = $data['name'];
+        $role->is_deleted = false;
+
+        $role->save();
+
+        return response()->json([
+            'roles' => $role
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
-        //
-        $role = Role::findOrFail($id);
-        return new RoleResource($role);
+
+        $role = Role::find($id);
+        return response()->json([
+            'roles' => $role
+        ]);
     }
 
     /**
@@ -73,38 +66,33 @@ class RoleController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
-        $role = Role::findOrFail($id);
-        $role->name = $request->name;
-        $role->is_deleted = $request->is_deleted;
 
-        if ($role->save()) {
-            return new RoleResource($role);
-        }
+        $data = $request->json()->all();
+        $role = new Role($id);
+
+        $role->name = $data['name'];
+        $role->is_deleted = false;
+
+        $role->save();
+
+        return response()->json([
+            'roles' => $role
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
-        $role = Role::findOrFail($id);
 
-        if ($role->delete()) {
-            return new RoleResource($role);
-        }
+        $role = Role::find($id);
+        $role->is_deleted = true;
+        $role->delete();
+
+        return response()->json([
+            'roles' => $role
+        ]);
     }
 }

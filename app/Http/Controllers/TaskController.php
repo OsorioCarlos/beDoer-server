@@ -112,15 +112,25 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        $task->is_deleted = true;
+        $task = Task::find($id);
+        $task -> is_deleted= true;
+        $task-> delete();
+        
+        return response()->json([
+            'tasks' => $task
+        ]);
+
+        /*
+         $task->is_deleted = true;
         $task->save();
 
         return response()->json([
             'data' => [
                 'task' => $task
             ]
-        ], 201);
+        ], 201); 
+        */
     }
 }
