@@ -19,9 +19,10 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        State::Factory(10)->create();
-        Role::factory(10)->create();
-        Team::factory(10)->create();
-        Task::factory(10)->create();
+        \App\Models\User::factory(10)->create();
+        \App\Models\State::factory(10)->create();
+        \App\Models\Role::factory(10)->create();
+        \App\Models\Team::factory(10)->create();
+        \App\Models\Task::factory(10)->create();
     }
 }

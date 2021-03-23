@@ -25,10 +25,10 @@ class TaskFactory extends Factory
             'title' => $this->faker->company,
             'description' => $this->faker->text($maxNbChars = 50),
             'expiration_date' => $this->faker->dateTimeThisYear,
-            'state_id' =>  $this->faker->numberBetween($min = 10, $max = 20),
-            'created_by' =>  $this->faker->numberBetween($min = 10, $max = 20),
-            'teamspace' =>  $this->faker->numberBetween($min = 10, $max = 20),
-            'is_deleted' => $this->boolean,
+            'state_id' =>  random_int(1, 10),
+            'created_by' => random_int(1, 10),
+            'teamspace' =>  random_int(1, 10),
+            'is_deleted' => $this->faker->boolean,
         ];
     }
 }
