@@ -17,7 +17,6 @@ class TaskController extends Controller
     {
         //
         $tasks = Task::get();
-        return TaskResource::collection($task);
         return response()->json([
             'data' => [
                 'tasks' => $tasks
@@ -99,7 +98,7 @@ class TaskController extends Controller
         $task->created_by = $data['created_by'];
         $task->teamspace = $data['teamspace'];
 
-        $tag->save();
+        $task->save();
         return response()->json([
             'data' => [
                 'task' => $task

@@ -29,9 +29,6 @@ class TaskFactory extends Factory
             'created_by' =>  $this->faker->numberBetween($min = 10, $max = 20),
             'teamspace' =>  $this->faker->numberBetween($min = 10, $max = 20),
             'is_deleted' => $this->boolean,
-
-
-
         ];
     }
 }

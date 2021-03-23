@@ -35,7 +35,7 @@ Route::apiResource('teams', TeamController::class);
 Route::apiResource('categories', CategoryController::class);
 
 /* Rutas Task */
-Route::get("/tasks", [TaskController::class, 'index']);
+Route::apiResource('tasks', TaskController::class);
 
 /* Rutas Role  */
 Route::apiResource("roles", RoleController::class);
