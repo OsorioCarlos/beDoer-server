@@ -16,19 +16,20 @@ class TaskController extends Controller
     public function index()
     {
         //
-        $task = Task::paginate(10);
+        $tasks = Task::get();
         return TaskResource::collection($task);
+        return response()->json([
+            'data' => [
+                'tasks' => $tasks
+            ],
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -38,29 +39,46 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->json()->all();
 
+        $task = new Task();
+        $task->title = $data['title'];
+        $task->description = $data['description'];
+        $task->expiration_date = $data['expiration_date'];
+        $task->state_id = $data['state_id'];
+        $task->created_by = $data['created_by'];
+        $task->teamspace = $data['teamspace'];
+        $task->is_deleted = false;
+
+        $task->save();
+
+        return response()->json([
+            'data' => [
+                'task' => $task
+            ]
+        ], 201);
+    }
+    
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
-    {
-        //
-    }
-
+   
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    
+    public function show(Task $task)
     {
-        //
+        return response()->json([
+            'data' => [
+                'tasks' => $task
+            ]], 200);
     }
 
     /**
@@ -72,7 +90,21 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $data = $request->json()->all();
+
+        $task->title = $data['title'];
+        $task->description = $data['description'];
+        $task->expiration_date = $data['expiration_date'];
+        $task->state_id = $data['state_id'];
+        $task->created_by = $data['created_by'];
+        $task->teamspace = $data['teamspace'];
+
+        $tag->save();
+        return response()->json([
+            'data' => [
+                'task' => $task
+            ]
+        ], 201);
     }
 
     /**
@@ -83,6 +115,13 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->is_deleted = true;
+        $task->save();
+
+        return response()->json([
+            'data' => [
+                'task' => $task
+            ]
+        ], 201);
     }
 }
