@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,5 +35,7 @@ Route::apiResource('categories', CategoryController::class);
 Route::get("/tasks", [TaskController::class, 'index']);
 
 /* Rutas Role */
-
 Route::get("/roles", [RoleController::class, 'index']);
+
+// ruta para etiquetas
+Route::apiResource('tags', TagController::class);
