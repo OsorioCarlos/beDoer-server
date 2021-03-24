@@ -1,0 +1,29 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\TaskCategory;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class TaskCategoryFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = TaskCategory::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'task_id' =>  random_int(1, 10),
+            'category_by' => random_int(1, 10),
+        ];
+    }
+}
