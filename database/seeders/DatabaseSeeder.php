@@ -23,6 +23,9 @@ class DatabaseSeeder extends Seeder
         \App\Models\Team::factory(10)->create();
         \App\Models\Task::factory(10)->create();
         \App\Models\Member::factory(10)->create();
-
+        \App\Models\MemberTask::factory(10)->create();
+        \App\Models\TaskCategory::factory(10)->create();
+        \App\Models\Category::factory(10)->create();
+        \App\Models\Tag::factory(10)->create();
     }
 }
