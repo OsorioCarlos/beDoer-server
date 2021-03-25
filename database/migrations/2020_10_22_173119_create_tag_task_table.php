@@ -17,7 +17,7 @@ class CreateTagTaskTable extends Migration
             $table->id();
             $table->foreignId('tag_id')->constrained('tags');
             $table->foreignId('task_id')->constrained('tasks');
-            $table->boolean('is_deleted')->default(false);
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }
