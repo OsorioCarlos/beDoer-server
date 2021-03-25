@@ -28,7 +28,7 @@ class TaskFactory extends Factory
             'state_id' =>  random_int(1, 10),
             'created_by' => random_int(1, 10),
             'teamspace' =>  random_int(1, 10),
-            'is_deleted' => $this->faker->boolean,
+            'deleted' => false,
         ];
     }
 }

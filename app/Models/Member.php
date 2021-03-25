@@ -17,12 +17,12 @@ class Member extends Model
         return $this->hasOne(Role::class);
     }
 
-    public function tasks(){
-        return $this->belongsToMany(Task::class);
-    }
-
     public function team(){
         return $this->belongsTo(Team::class);
+    }
+
+    public function memberTask(){
+        return $this->belongsTo(MemberTask::class);
     }
 
 }

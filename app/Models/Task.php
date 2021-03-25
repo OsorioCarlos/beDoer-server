@@ -31,10 +31,7 @@ class Task extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    public function members()
-    {
-        return $this->belongsToMany(Member::class);
-    }
+
 
     public function state(){
         return $this->hasOne(State::class);
@@ -42,6 +39,10 @@ class Task extends Model
 
     public function team(){
         return $this->belongsTo(Team::class);
+    }
+
+    public function memberTask(){
+        return $this->belongsTo(MemberTask::class);
     }
 
 }
