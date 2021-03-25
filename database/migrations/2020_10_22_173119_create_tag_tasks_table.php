@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTagTaskTable extends Migration
+class CreateTagTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTagTaskTable extends Migration
      */
     public function up()
     {
-        Schema::create('tag_task', function (Blueprint $table) {
+        Schema::create('tag_tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tag_id')->constrained('tags');
             $table->foreignId('task_id')->constrained('tasks');

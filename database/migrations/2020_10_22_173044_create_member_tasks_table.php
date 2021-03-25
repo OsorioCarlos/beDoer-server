@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMemberTaskTable extends Migration
+class CreateMemberTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMemberTaskTable extends Migration
      */
     public function up()
     {
-        Schema::create('member_task', function (Blueprint $table) {
+        Schema::create('member_tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->constrained('members');
             $table->foreignId('task_by')->constrained('tasks');
