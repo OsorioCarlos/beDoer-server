@@ -9,7 +9,12 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'deleted',
+    ];
+
     public function tasks(){
-        return $this->belongsToMany(Task::class);
+        return $this->belongsTo(Task::class);
     }
 }

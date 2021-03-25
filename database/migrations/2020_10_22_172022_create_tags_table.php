@@ -17,7 +17,7 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('color', 7)->nullable();
-            $table->boolean('is_deleted')->default(false);
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }

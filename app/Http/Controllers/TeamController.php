@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\TeamResource;
+
 use App\Models\Team;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         //
-        $team = Team::paginate(10);
-        return TeamResource::collection($team);
+        $teams = Team::all();
+        return response()->json([
+            'teams' => $teams
+        ]);
     }
 
     /**
@@ -30,26 +28,31 @@ class TeamController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $data = $request->json()->all();
+
+        $team = new Team();
+        $team-> name = $data['name'];
+        $team->description = $data['description'];
+        $team->is_deleted = false;
+
+        $team->save();
+
+        return response()->json([
+            'teams' => $team
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Team $team)
+
+    public function show($id)
     {
-        //
+        
+        $team = Team::find($id);
+        return response()->json([
+            'teams' => $team
+        ]);
     }
 
     /**
@@ -63,26 +66,32 @@ class TeamController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Team $team)
+
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->json()->all();
+        $team = Team::find($id);
+
+        $team-> name = $data['name'];
+        $team->description = $data['description'];
+        $team->is_deleted = false;
+
+        $team->save();
+
+        return response()->json([
+            'teams' => $team
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Team $team)
+    
+    public function destroy($id)
     {
-        //
+        $team = Team::find($id);
+        $team->is_deleted = true;
+        $team->delete();
+
+        return response()->json([
+            'teams' => $team
+        ]);
     }
 }

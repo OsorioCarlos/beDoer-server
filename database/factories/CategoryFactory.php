@@ -23,7 +23,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'is_assigned' => false
+            'deleted' => false,
         ];
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Tag;
+use App\Models\Member;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TagFactory extends Factory
+class MemberFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Tag::class;
+    protected $model = Member::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,10 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'color' => $this->faker->hexcolor,
-            'deleted' => false,
+            'user_id' =>  random_int(1, 10),
+            'team_id' =>  random_int(1, 10),
+            'rol_id' =>  random_int(1, 10),
+
         ];
     }
 }

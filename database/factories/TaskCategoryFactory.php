@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Tag;
+use App\Models\TaskCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TagFactory extends Factory
+class TaskCategoryFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Tag::class;
+    protected $model = TaskCategory::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,8 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'color' => $this->faker->hexcolor,
-            'deleted' => false,
+            'task_id' =>  random_int(1, 10),
+            'category_by' => random_int(1, 10),
         ];
     }
 }

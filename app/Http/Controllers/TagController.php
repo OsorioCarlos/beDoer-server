@@ -14,17 +14,23 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::get();
+
+        $tags = Tag::all();
         return response()->json([
-            'data' => [
-                'tags' => $tags
-            ],
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
-            ]
+            'tags' => $tags
         ]);
+
+        // $tags = Tag::get();
+        // return response()->json([
+        //     'data' => [
+        //         'tags' => $tags
+        //     ],
+        //     'message' => [
+        //         'summary' => 'success',
+        //         'detail' => '',
+        //         'code' => '200'
+        //     ]
+        // ]);
     }
 
     /**
@@ -45,10 +51,23 @@ class TagController extends Controller
         $tag->save();
 
         return response()->json([
-            'data' => [
-                'tag' => $tag
-            ]
-        ], 201);
+            'tags' => $tag
+        ]);
+
+        // $data = $request->json()->all();
+
+        // $tag = new Tag();
+        // $tag->name = $data['name'];
+        // $tag->color = $data['color'];
+        // $tag->is_deleted = false;
+
+        // $tag->save();
+
+        // return response()->json([
+        //     'data' => [
+        //         'tag' => $tag
+        //     ]
+        // ], 201);
     }
 
     /**
@@ -57,12 +76,17 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show($id)
     {
+        $tag = Tag::find($id);
         return response()->json([
-            'data' => [
-                'tags' => $tag
-            ]], 200);
+            'tags' => $tag
+        ]);
+
+        // return response()->json([
+        //     'data' => [
+        //         'tags' => $tag
+        //     ]], 200);
     }
 
     /**
@@ -72,19 +96,31 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tag $tag)
+    public function update(Request $request, $id)
     {
         $data = $request->json()->all();
+        $tag = Tag::find($id);
 
         $tag->name = $data['name'];
         $tag->color = $data['color'];
 
         $tag->save();
+
         return response()->json([
-            'data' => [
-                'tag' => $tag
-            ]
-        ], 201);
+            'tags' => $tag
+        ]);
+
+        // $data = $request->json()->all();
+
+        // $tag->name = $data['name'];
+        // $tag->color = $data['color'];
+
+        // $tag->save();
+        // return response()->json([
+        //     'data' => [
+        //         'tag' => $tag
+        //     ]
+        // ], 201);
     }
 
     /**
@@ -93,15 +129,23 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tag $tag)
+    public function destroy($id)
     {
+        $tag = Tag::find($id);
         $tag->is_deleted = true;
-        $tag->save();
+        $tag->delete();
 
         return response()->json([
-            'data' => [
-                'tag' => $tag
-            ]
-        ], 201);
+            'tags' => $tag
+        ]);
+
+        // $tag->is_deleted = true;
+        // $tag->save();
+
+        // return response()->json([
+        //     'data' => [
+        //         'tag' => $tag
+        //     ]
+        // ], 201);
     }
 }

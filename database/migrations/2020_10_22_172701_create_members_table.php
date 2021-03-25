@@ -18,7 +18,7 @@ class CreateMembersTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('team_id')->constrained('teams');
             $table->foreignId('rol_id')->constrained('roles');
-            $table->boolean('is_deleted')->default(false);
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }

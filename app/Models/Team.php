@@ -9,6 +9,12 @@ class Team extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'deleted'
+    ];
+
     public function tasks(){
         return $this->hasMany(Task::class);
     }

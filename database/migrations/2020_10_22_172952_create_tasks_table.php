@@ -21,7 +21,7 @@ class CreateTasksTable extends Migration
             $table->foreignId('state_id')->constrained('states')->nullable();
             $table->foreignId('created_by')->constrained('users')->nullable();
             $table->foreignId('teamspace')->constrained('teams');
-            $table->boolean('is_deleted')->default(false);
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ class CreateTeamsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('description');
-            $table->boolean('is_deleted')->default(false);
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }

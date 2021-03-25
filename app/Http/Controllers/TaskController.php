@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\TaskResource;
+
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -17,7 +17,6 @@ class TaskController extends Controller
     {
         //
         $tasks = Task::get();
-        return TaskResource::collection($task);
         return response()->json([
             'data' => [
                 'tasks' => $tasks
@@ -99,7 +98,7 @@ class TaskController extends Controller
         $task->created_by = $data['created_by'];
         $task->teamspace = $data['teamspace'];
 
-        $tag->save();
+        $task->save();
         return response()->json([
             'data' => [
                 'task' => $task
@@ -113,15 +112,25 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        $task->is_deleted = true;
+        $task = Task::find($id);
+        $task -> is_deleted= true;
+        $task-> delete();
+        
+        return response()->json([
+            'tasks' => $task
+        ]);
+
+        /*
+         $task->is_deleted = true;
         $task->save();
 
         return response()->json([
             'data' => [
                 'task' => $task
             ]
-        ], 201);
+        ], 201); 
+        */
     }
 }
