@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TagTask extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-=======
 
     protected $fillable = [
         'tag_id',
@@ -44,5 +42,4 @@ class TagTask extends Model
         return $this->belongsTo(Team::class);
     }
 
->>>>>>> 4fe5c2cd4c6fdca0463cd1ce5a2fc809468318c3
 }
