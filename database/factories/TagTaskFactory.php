@@ -22,8 +22,8 @@ class TagTaskFactory extends Factory
     public function definition()
     {
         return [
-            'tag_id' =>  random_int(1, 10),
-            'task_id' => random_int(1, 10),
+            'tag_id' => random_int(1, 10),
+            'task_id' => random_int(1, 10)
         ];
     }
 }
