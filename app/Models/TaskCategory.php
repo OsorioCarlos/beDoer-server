@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class State extends Model
+class TaskCategory extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'name',
+        'deleted'
     ];
 
-    public function task(){
-        return $this->belongsToMany(Task::class);
+    public function categories(){
+        return $this->belongsToMany(Category::class);
     }
+    public function task(){
+        return $this->belongsToMany(task::class);
+    }
+
 }
