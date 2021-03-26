@@ -10,6 +10,7 @@ use App\Models\State;
 use App\Models\Tag;
 use App\Models\TagTask;
 use App\Models\Task;
+use App\Models\TaskCategory;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -40,11 +41,6 @@ class DatabaseSeeder extends Seeder
         Tag::factory(10)->create();
         MemberTask::factory(10)->create();
         TagTask::factory(10)->create();
-        // TaskCategory::create([
-        //     'id' => 1,
-        //     'task_id' => 1,
-        //     'category_id' => 1
-        // ]);
         TaskCategory::factory(10)->create();
     }
 }
