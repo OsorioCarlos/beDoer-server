@@ -12,6 +12,8 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\StateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +47,9 @@ Route::apiResource('tags', TagController::class);
 
 /* ruta para usuarios */
 Route::apiResource('users', UserController::class);
+
+/* ruta para estados */
+Route::apiResource('states', StateController::class);
+
+/* ruta para miembros de un equipo */
+Route::apiResource('members', MemberController::class);
