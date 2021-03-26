@@ -23,8 +23,7 @@ class TagFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'color' => $this->faker->hexcolor,
-            'deleted' => false,
+            'color' => $this->faker->hexcolor
         ];
     }
 }

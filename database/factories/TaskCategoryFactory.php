@@ -23,7 +23,7 @@ class TaskCategoryFactory extends Factory
     {
         return [
             'task_id' =>  random_int(1, 10),
-            'category_by' => random_int(1, 10),
+            'category_by' => random_int(1, 10)
         ];
     }
 }
