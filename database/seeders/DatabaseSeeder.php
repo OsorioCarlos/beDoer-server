@@ -14,7 +14,7 @@ use App\Models\TaskCategory;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use App\Models\TaskCategory;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,14 +28,36 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Joel',
             'email' => 'joel@test.com',
+            'email_verified_at' => now(),
             'password' => bcrypt('159'),
-            'deleted' => 'false'
+            'deleted' => 'false',
+            'remember_token' => Str::random(10)
         ]);
+
+        State::create([
+            'id' => 1,
+            'name' => 'not state'
+        ]);
+
+        State::create([
+            'id' => 2,
+            'name' => 'to do'
+        ]);
+
+        State::create([
+            'id' => 3,
+            'name' => 'doing'
+        ]);
+
+        State::create([
+            'id' => 4,
+            'name' => 'done'
+        ]);
+
         User::factory(10)->create();
         Role::factory(10)->create();
         Team::factory(10)->create();
         Member::factory(10)->create();
-        State::factory(10)->create();
         Task::factory(10)->create();
         Category::factory(10)->create();
         Tag::factory(10)->create();
