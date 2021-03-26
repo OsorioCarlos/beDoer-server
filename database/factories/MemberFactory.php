@@ -24,8 +24,7 @@ class MemberFactory extends Factory
         return [
             'user_id' =>  random_int(1, 10),
             'team_id' =>  random_int(1, 10),
-            'rol_id' =>  random_int(1, 10),
-
+            'rol_id' =>  random_int(1, 10)
         ];
     }
 }

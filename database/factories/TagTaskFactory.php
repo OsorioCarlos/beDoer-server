@@ -23,7 +23,7 @@ class TagTaskFactory extends Factory
     {
         return [
             'tag_id' => random_int(1, 10),
-            'task_id' => random_int(1, 10),
+            'task_id' => random_int(1, 10)
         ];
     }
 }

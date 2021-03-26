@@ -35,15 +35,19 @@ class DatabaseSeeder extends Seeder
         /* \App\Models\TaskCategory::factory(10)->create(); */
         TagTask::factory(10)->create();
 
-        State::Factory(10)->create();
-        Role::factory(10)->create();
+        State::Factory(3)->create();
+        Role::factory(5)->create();
         Team::factory(10)->create();
 
         User::create([
             'name' => 'Joel',
             'email' => 'joel@test.com',
+<<<<<<< HEAD
             'password' => bcrypt('159'),
             'deleted' => 'false'
+=======
+            'password' => bcrypt('159')
+>>>>>>> c1382ee938085cca3b80b9848ecbd7388c50a844
         ]);
 
         User::factory(10)->create();

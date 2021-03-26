@@ -27,8 +27,7 @@ class TaskFactory extends Factory
             'expiration_date' => $this->faker->dateTimeThisYear,
             'state_id' =>  random_int(1, 10),
             'created_by' => random_int(1, 10),
-            'teamspace' =>  random_int(1, 10),
-            'deleted' => false,
+            'teamspace' =>  random_int(1, 10)
         ];
     }
 }
