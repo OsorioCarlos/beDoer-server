@@ -22,8 +22,8 @@ class TasksMemberFactory extends Factory
     public function definition()
     {
         return [
-            'task_by' => random_int(1, 10),
-            'member_id' => random_int(1, 10),
+            'task_by' => random_int(1, 100),
+            'member_id' => random_int(1, 60),
         ];
     }
 }

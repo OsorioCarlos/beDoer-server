@@ -23,7 +23,7 @@ class TaskController extends Controller
                 // ->join('tag_tasks', 'tasks.id', '=', 'tag_tasks.task_id')
                 // ->join('tags', 'tags.id', '=', 'tag_tasks.tag_id')
                 // ->select('tasks.id', 'tasks.title', 'tasks.description', 'tasks.expiration_date', 'tags.name as tag_name', 'tasks.state_id')
-                ->with('tag_tasks')
+                //->with('tag_tasks')
                 ->get();
         }
 

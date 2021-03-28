@@ -25,15 +25,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
 
         User::create([
-            'id' => 1,
+            // 'id' => 1,
             'name' => 'Joel',
             'email' => 'joel@test.com',
             'email_verified_at' => now(),
             'password' => bcrypt('159'),
-            // 'deleted' => 'false',
             'remember_token' => Str::random(10)
         ]);
 
@@ -58,14 +56,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(10)->create();
-        Role::factory(10)->create();
-        Team::factory(10)->create();
-        Member::factory(10)->create();
-        Task::factory(10)->create();
-        Category::factory(10)->create();
-        Tag::factory(10)->create();
-        TasksMember::factory(10)->create();
-        TasksTag::factory(10)->create();
-        TasksCategory::factory(10)->create();
+        Role::factory(5)->create();
+        Team::factory(15)->create();
+        Member::factory(60)->create();
+        Task::factory(100)->create();
+        Category::factory(5)->create();
+        Tag::factory(5)->create();
+        TasksMember::factory(600)->create();
+        TasksTag::factory(500)->create();
+        TasksCategory::factory(500)->create();
     }
 }
