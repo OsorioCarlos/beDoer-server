@@ -15,7 +15,8 @@ class Tag extends Model
         'deleted'
     ];
 
-    public function task(){
+    public function tasks()
+    {
         return $this->belongsToMany(Task::class);
     }
 }

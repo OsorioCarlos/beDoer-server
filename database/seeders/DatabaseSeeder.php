@@ -2,19 +2,19 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
+use App\Models\TasksCategory;
+use App\Models\TasksMember;
+use App\Models\TasksTag;
 use App\Models\Category;
 use App\Models\Member;
-use App\Models\MemberTask;
 use App\Models\Role;
 use App\Models\State;
 use App\Models\Tag;
-use App\Models\TagTask;
 use App\Models\Task;
-use App\Models\TaskCategory;
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,12 +25,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // \App\Models\User::factory(10)->create();
+
         User::create([
+            'id' => 1,
             'name' => 'Joel',
             'email' => 'joel@test.com',
             'email_verified_at' => now(),
             'password' => bcrypt('159'),
-            'deleted' => 'false',
+            // 'deleted' => 'false',
             'remember_token' => Str::random(10)
         ]);
 
@@ -61,8 +64,8 @@ class DatabaseSeeder extends Seeder
         Task::factory(10)->create();
         Category::factory(10)->create();
         Tag::factory(10)->create();
-        MemberTask::factory(10)->create();
-        TagTask::factory(10)->create();
-        TaskCategory::factory(10)->create();
+        TasksMember::factory(10)->create();
+        TasksTag::factory(10)->create();
+        TasksCategory::factory(10)->create();
     }
 }

@@ -20,7 +20,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'deleted'
     ];
 
     /**
@@ -30,7 +29,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token'
+        'remember_token',
     ];
 
     /**
@@ -42,12 +41,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-//    metodos de orm
-    public function tasks(){
+    //    metodos de orm
+
+
+    // preguntar sobre el nombre
+    // por que CREA muchas tareas
+    public function tasks()
+    {
         return $this->hasMany(Task::class);
     }
 
-    public function members(){
-        return $this->belongsToMany(Member::class);
+    // preguntar sobre la relacion
+
+    // public function members()
+    // {
+    //     return $this->belongsToMany(Member::class);
+    // }
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class);
     }
+
 }

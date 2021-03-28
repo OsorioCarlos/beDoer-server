@@ -10,7 +10,7 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -37,7 +37,7 @@ class TagController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -74,7 +74,7 @@ class TagController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -94,7 +94,7 @@ class TagController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -127,7 +127,7 @@ class TagController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

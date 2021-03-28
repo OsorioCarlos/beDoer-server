@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use Dotenv\Validator;
-use http\Env\Response;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -28,16 +26,6 @@ class CategoryController extends Controller
                 'message' => 'source not found'
             ], 404);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -65,6 +53,7 @@ class CategoryController extends Controller
      * Display the specified resource.
      *
      * @param \App\Models\Category $category
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
@@ -84,17 +73,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Category $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category, $id)
-    {
-
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -103,9 +81,6 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        $validations = $request->validate([
-//            'name' => 'required',
-//        ]);
         $category = Category::find($id);
 
         if ($category && $request->name != null) {
@@ -124,13 +99,13 @@ class CategoryController extends Controller
             ], 200);
         }
 
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param \App\Models\Category $category
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
@@ -148,6 +123,5 @@ class CategoryController extends Controller
                 'message' => 'categoria no encontrada',
             ], 200);
         }
-
     }
 }

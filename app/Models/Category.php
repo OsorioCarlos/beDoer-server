@@ -14,7 +14,8 @@ class Category extends Model
         'deleted',
     ];
 
-    public function tasks(){
-        return $this->belongsTo(Task::class);
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
     }
 }

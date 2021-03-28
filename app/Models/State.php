@@ -13,7 +13,8 @@ class State extends Model
         'name',
     ];
 
-    public function task(){
-        return $this->belongsToMany(Task::class);
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\State;
+use App\Models\TasksCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class StateFactory extends Factory
+class TasksCategoryFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = State::class;
+    protected $model = TasksCategory::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +22,8 @@ class StateFactory extends Factory
     public function definition()
     {
         return [
-            //
-            'name' => $this->faker->randomElement(['to do', 'doing', 'done'])
+            'task_id' =>  random_int(1, 10),
+            'category_id' => random_int(1, 10)
         ];
     }
 }

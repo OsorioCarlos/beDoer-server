@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -11,8 +10,7 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -32,11 +30,11 @@ class TaskController extends Controller
         // Devuelve todas las tareas de un equipo
         if ($data['team_id'] != null && $data['user_id'] == null) {
             $tasks = Task::where('teamspace', $data['team_id'])
-            ->where('deleted', false)
-            ->select('id', 'title', 'description', 'expiration_date', 'state_id')
-            ->get();
+                ->where('deleted', false)
+                ->select('id', 'title', 'description', 'expiration_date', 'state_id')
+                ->get();
         }
-        
+
         return response()->json([
             'data' => [
                 'tasks' => $tasks
@@ -48,13 +46,12 @@ class TaskController extends Controller
             ]
         ]);
     }
-   
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -76,14 +73,13 @@ class TaskController extends Controller
             ]
         ], 201);
     }
-   
+
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified resource.
      *
      * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    
     public function show(Task $task)
     {
         return response()->json([
@@ -97,7 +93,7 @@ class TaskController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Task $task)
     {
@@ -120,13 +116,13 @@ class TaskController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Task $task)
     {
         $task->deleted = true;
         $task->save();
-        
+
         return response()->json([
             'task' => $task
         ]);

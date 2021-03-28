@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\MemberTask;
+use App\Models\TasksMember;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MemberTaskFactory extends Factory
+class TasksMemberFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = MemberTask::class;
+    protected $model = TasksMember::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,8 @@ class MemberTaskFactory extends Factory
     public function definition()
     {
         return [
-            //
-            'member_id' => random_int(1, 10),
             'task_by' => random_int(1, 10),
+            'member_id' => random_int(1, 10),
         ];
     }
 }

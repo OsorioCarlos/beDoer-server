@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'title',
         'description',
@@ -17,18 +18,14 @@ class Task extends Model
         'deleted'
     ];
 
-
-
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
-
-    public function tags(){
-        return $this->belongsToMany(Tag::class);
-    }
-
-    public function categories(){
+    public function categories()
+    {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 
     public function members()
@@ -36,12 +33,19 @@ class Task extends Model
         return $this->belongsToMany(Member::class);
     }
 
-    public function state(){
+    public function state()
+    {
         return $this->hasOne(State::class);
     }
 
-    public function team(){
+    public function team()
+    {
         return $this->belongsTo(Team::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }
