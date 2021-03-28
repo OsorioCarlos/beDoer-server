@@ -11,12 +11,32 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $tasks = Task::get();
+        $data = $request->json()->all();
+
+        // Devuelve todas las tareas de un usuario
+        if ($data['team_id'] == null && $data['user_id'] != null) {
+            $tasks = Task::where('created_by', $data['user_id'])
+                ->where('deleted', false)
+                // ->join('tag_tasks', 'tasks.id', '=', 'tag_tasks.task_id')
+                // ->join('tags', 'tags.id', '=', 'tag_tasks.tag_id')
+                // ->select('tasks.id', 'tasks.title', 'tasks.description', 'tasks.expiration_date', 'tags.name as tag_name', 'tasks.state_id')
+                ->with('tag_tasks')
+                ->get();
+        }
+
+        // Devuelve todas las tareas de un equipo
+        if ($data['team_id'] != null && $data['user_id'] == null) {
+            $tasks = Task::where('teamspace', $data['team_id'])
+            ->where('deleted', false)
+            ->select('id', 'title', 'description', 'expiration_date', 'state_id')
+            ->get();
+        }
+        
         return response()->json([
             'data' => [
                 'tasks' => $tasks
@@ -47,7 +67,6 @@ class TaskController extends Controller
         $task->state_id = $data['state_id'];
         $task->created_by = $data['created_by'];
         $task->teamspace = $data['teamspace'];
-        $task->is_deleted = false;
 
         $task->save();
 
@@ -57,13 +76,6 @@ class TaskController extends Controller
             ]
         ], 201);
     }
-    
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
    
     /**
      * Show the form for editing the specified resource.
@@ -76,7 +88,7 @@ class TaskController extends Controller
     {
         return response()->json([
             'data' => [
-                'tasks' => $task
+                'task' => $task
             ]], 200);
     }
 
@@ -95,8 +107,6 @@ class TaskController extends Controller
         $task->description = $data['description'];
         $task->expiration_date = $data['expiration_date'];
         $task->state_id = $data['state_id'];
-        $task->created_by = $data['created_by'];
-        $task->teamspace = $data['teamspace'];
 
         $task->save();
         return response()->json([
@@ -112,25 +122,13 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        $task = Task::find($id);
-        $task -> is_deleted= true;
-        $task-> delete();
+        $task->deleted = true;
+        $task->save();
         
         return response()->json([
-            'tasks' => $task
+            'task' => $task
         ]);
-
-        /*
-         $task->is_deleted = true;
-        $task->save();
-
-        return response()->json([
-            'data' => [
-                'task' => $task
-            ]
-        ], 201); 
-        */
     }
 }

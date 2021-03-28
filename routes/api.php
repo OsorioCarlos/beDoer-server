@@ -49,7 +49,7 @@ Route::apiResource('tags', TagController::class);
 Route::apiResource('users', UserController::class);
 
 /* ruta para estados */
-Route::apiResource('states', StateController::class);
+Route::get('states', [StateController::class, 'getStates']);
 
 /* ruta para miembros de un equipo */
 Route::apiResource('members', MemberController::class);
