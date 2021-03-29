@@ -15,8 +15,8 @@ class CreateTeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('description');
+            $table->string('name');
+            $table->string('description')->nullable();
             $table->boolean('deleted')->default(false);
             $table->timestamps();
         });

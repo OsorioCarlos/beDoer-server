@@ -22,8 +22,8 @@ class TasksCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'task_id' =>  random_int(1, 10),
-            'category_id' => random_int(1, 10)
+            'task_id' =>  random_int(1, 100),
+            'category_id' => random_int(1, 5)
         ];
     }
 }
