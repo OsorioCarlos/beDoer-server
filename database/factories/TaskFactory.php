@@ -25,9 +25,9 @@ class TaskFactory extends Factory
             'title' => $this->faker->company,
             'description' => $this->faker->text($maxNbChars = 50),
             'expiration_date' => $this->faker->dateTimeThisYear,
-            'state_id' =>  random_int(1, 10),
-            'created_by' => random_int(1, 10),
-            'teamspace' =>  random_int(1, 10)
+            'state_id' =>  random_int(1, 4),
+            'created_by' => random_int(2, 10),
+            'teamspace' =>  random_int(2, 15)
         ];
     }
 }

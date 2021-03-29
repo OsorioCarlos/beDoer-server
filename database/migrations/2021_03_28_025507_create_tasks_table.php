@@ -15,11 +15,11 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->string('description');
-            $table->dateTime('expiration_date');
-            $table->foreignId('state_id')->constrained('states')->nullable();
-            $table->foreignId('created_by')->constrained('users')->nullable();
+            $table->string('title');
+            $table->string('description')->nullable();
+            $table->dateTime('expiration_date')->nullable();
+            $table->foreignId('state_id')->constrained('states');
+            $table->foreignId('created_by')->constrained('users');
             $table->foreignId('teamspace')->constrained('teams');
             $table->boolean('deleted')->default(false);
             $table->timestamps();

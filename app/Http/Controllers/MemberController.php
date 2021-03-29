@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class MemberController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +15,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $members = Member::all();
 
-        if ($categories) {
+        if ($members) {
             return response()->json([
-                'categories' => $categories,
+                'members' => $members,
                 'message' => 'successful'
             ], 200);
         } else {
@@ -31,7 +32,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -52,8 +53,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Category $category
-     * @param $id
+     * @param  \App\Models\Member  $member
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
@@ -75,12 +75,15 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Category $category
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Member  $member
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
+//        $validations = $request->validate([
+//            'name' => 'required',
+//        ]);
         $category = Category::find($id);
 
         if ($category && $request->name != null) {
@@ -98,14 +101,12 @@ class CategoryController extends Controller
                 'message' => 'categoria no encontrada',
             ], 200);
         }
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Category $category
-     * @param $id
+     * @param  \App\Models\Member  $member
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
@@ -123,5 +124,6 @@ class CategoryController extends Controller
                 'message' => 'categoria no encontrada',
             ], 200);
         }
+
     }
 }

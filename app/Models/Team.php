@@ -15,12 +15,21 @@ class Team extends Model
         'deleted'
     ];
 
-    public function tasks(){
+    public function tasks()
+    {
         return $this->hasMany(Task::class);
     }
 
-    public function members(){
-        return $this->hasMany(Member::class);
-    }
+    // preguntar sobre la relacion
 
+    // public function members()
+    // {
+    //     return $this->hasMany(Member::class);
+    // }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+    
 }

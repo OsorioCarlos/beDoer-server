@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
 
@@ -19,16 +22,11 @@ class RoleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
-    {
-        //
-    }
-
-
     public function store(Request $request)
     {
         $data = $request->json()->all();
@@ -44,10 +42,14 @@ class RoleController extends Controller
         ]);
     }
 
-
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Role  $role
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
-
         $role = Role::find($id);
         return response()->json([
             'roles' => $role
@@ -55,17 +57,12 @@ class RoleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(Role $role)
-    {
-        //
-    }
-
-
     public function update(Request $request, $id)
     {
 
@@ -82,7 +79,12 @@ class RoleController extends Controller
         ]);
     }
 
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Role  $role
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
 

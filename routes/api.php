@@ -1,17 +1,15 @@
 <?php
 
-// Laravel
-use Brick\Math\Exception\RoundingNecessaryException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
-// Controllers
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StateController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +43,10 @@ Route::apiResource('tags', TagController::class);
 
 /* ruta para usuarios */
 Route::apiResource('users', UserController::class);
+
+/* ruta para estados */
+Route::get('states', [StateController::class, 'getStates']);
+
+/* ruta para miembros de un equipo */
+Route::apiResource('members', MemberController::class);
+

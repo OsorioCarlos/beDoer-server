@@ -9,23 +9,19 @@ class Member extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-    ];
+    protected $fillable = [];
 
-    public function users(){
-        $this->hasMany(User::class);
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
+    }
+
+    public function teams(){
+        return $this->belongsTo(Team::class);
     }
 
     public function role(){
         return $this->hasOne(Role::class);
     }
-
-    public function tasks(){
-        return $this->belongsToMany(Task::class);
-    }
-
-    public function team(){
-        return $this->belongsTo(Team::class);
-    }
-
+    
 }
