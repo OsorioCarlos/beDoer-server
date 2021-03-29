@@ -36,7 +36,6 @@ class TagController extends Controller
         $tag = new Tag();
         $tag->name = $data['name'];
         $tag->color = $data['color'];
-        $tag->is_deleted = false;
 
         $tag->save();
 
@@ -99,7 +98,6 @@ class TagController extends Controller
     {
         $tag = Tag::find($id);
         $tag->is_deleted = true;
-        $tag->delete();
 
         return response()->json([
             'message' => 'Etiqueta eliminada',
