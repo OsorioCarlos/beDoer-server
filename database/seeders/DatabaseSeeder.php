@@ -14,7 +14,6 @@ use App\Models\TaskCategory;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use App\Models\TaskCategory;
 
 class DatabaseSeeder extends Seeder
 {
