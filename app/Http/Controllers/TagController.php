@@ -14,24 +14,14 @@ class TagController extends Controller
      */
     public function index()
     {
-
         $tags = Tag::all();
         return response()->json([
-            'tags' => $tags
-        ]);
+            'tags' => $tags,
+            'message' =>'successful'
+        ], 200);
 
-        // $tags = Tag::get();
-        // return response()->json([
-        //     'data' => [
-        //         'tags' => $tags
-        //     ],
-        //     'message' => [
-        //         'summary' => 'success',
-        //         'detail' => '',
-        //         'code' => '200'
-        //     ]
-        // ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -40,34 +30,19 @@ class TagController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
-    {
+     {
         $data = $request->json()->all();
 
         $tag = new Tag();
         $tag->name = $data['name'];
         $tag->color = $data['color'];
-        $tag->is_deleted = false;
 
         $tag->save();
 
         return response()->json([
-            'tags' => $tag
-        ]);
+            'message' => 'Etiqueta  creada'
+        ],200);
 
-        // $data = $request->json()->all();
-
-        // $tag = new Tag();
-        // $tag->name = $data['name'];
-        // $tag->color = $data['color'];
-        // $tag->is_deleted = false;
-
-        // $tag->save();
-
-        // return response()->json([
-        //     'data' => [
-        //         'tag' => $tag
-        //     ]
-        // ], 201);
     }
 
     /**
@@ -107,20 +82,10 @@ class TagController extends Controller
         $tag->save();
 
         return response()->json([
+            'message' =>'Etiqueta editada',
             'tags' => $tag
-        ]);
+        ],200);
 
-        // $data = $request->json()->all();
-
-        // $tag->name = $data['name'];
-        // $tag->color = $data['color'];
-
-        // $tag->save();
-        // return response()->json([
-        //     'data' => [
-        //         'tag' => $tag
-        //     ]
-        // ], 201);
     }
 
     /**
@@ -133,19 +98,11 @@ class TagController extends Controller
     {
         $tag = Tag::find($id);
         $tag->is_deleted = true;
-        $tag->delete();
 
         return response()->json([
+            'message' => 'Etiqueta eliminada',
             'tags' => $tag
-        ]);
+        ],200);
 
-        // $tag->is_deleted = true;
-        // $tag->save();
-
-        // return response()->json([
-        //     'data' => [
-        //         'tag' => $tag
-        //     ]
-        // ], 201);
     }
 }
