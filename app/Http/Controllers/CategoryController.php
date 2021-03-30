@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra categorias que no esten borradas.
      *
      * @return JsonResponse
      */
     public function index()
     {
-        $categories = Category::all();
+
+        $categories = Category::where('deleted', false)->get();
 
         if ($categories) {
             return response()->json([
-                'categories' => $categories,
-                'message' => 'successful'
+                'message' => 'successful',
+                'data' => $categories
             ], 200);
         } else {
             return response()->json([
@@ -46,8 +49,8 @@ class CategoryController extends Controller
         $category->save();
 
         return response()->json([
-            'message' => 'categoria creada'
-        ], 200);
+            'message' => 'category create'
+        ], 201);
     }
 
     /**
@@ -62,8 +65,8 @@ class CategoryController extends Controller
 
         if ($category) {
             return response()->json([
-                'response' => $category,
-                'message' => 'successful'
+                'message' => 'successful',
+                'data' => $category
             ], 200);
         } else {
             return response()->json([
@@ -90,13 +93,13 @@ class CategoryController extends Controller
             $category->save();
 
             return response()->json([
-                'message' => 'categoria editada',
-                'categoria' => $category
+                'message' => 'category edited',
+                'data' => $category
             ], 200);
         } else {
             return response()->json([
-                'message' => 'categoria no encontrada',
-            ], 200);
+                'message' => 'not found',
+            ], 404);
         }
 
     }
@@ -114,12 +117,11 @@ class CategoryController extends Controller
             $category->delete();
 
             return response()->json([
-                'message' => 'categoria eliminada',
-                'categoria' => $category
-            ], 200);
+                'message' => 'category deleted'
+            ], 204);
         } else {
             return response()->json([
-                'message' => 'categoria no encontrada',
+                'message' => 'not found',
             ], 200);
         }
     }

@@ -3,49 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use function GuzzleHttp\Promise\all;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::where('deleted', false)->get();
 
         if ($users) {
             return response()->json([
-                'users' => $users,
-                'message' => 'successful'
+                'message' => 'successful',
+                'data' => $users
             ], 200);
         } else {
             return response()->json([
-                'users' => $users,
-                'message' => 'source not found'
+                'message' => 'not found'
             ], 404);
         }
 
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -60,13 +50,13 @@ class UserController extends Controller
         $user->save();
 
         return response()->json([
-            'message' => 'usuario creado'
-        ], 200);
+            'message' => 'user created'
+        ], 201);
     }
 
     /**
      * Display the specified resource.
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show($id)
     {
@@ -80,28 +70,17 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'response' => $user,
-                'message' => 'source not found'
+                'message' => 'not found'
             ], 404);
         }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\User $user
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param User $user
+     * @return Response
      */
     public function update(Request $request, User $user)
     {
@@ -111,8 +90,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return Response
      */
     public function destroy(User $user)
     {
