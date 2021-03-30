@@ -19,12 +19,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::post('login', [UserController::class, 'login']);
+Route::post('register', [UserController::class, 'store']);
+//Route::apiResource('users', UserController::class)->except('store');
 
-/* Rutas Teams */
-Route::apiResource('teams', TeamController::class);
+Route::middleware(['auth:api', function(){
+    Route::apiResource('users', UserController::class)->except('store');
+}]);
+
 
 /* Rutas Categories */
 //esta en group fix, en el caso de que se requiera mas funcionalidad en el controlador.
@@ -41,12 +43,12 @@ Route::apiResource("roles", RoleController::class);
 /* ruta para etiquetas */
 Route::apiResource('tags', TagController::class);
 
-/* ruta para usuarios */
-Route::apiResource('users', UserController::class);
-
 /* ruta para estados */
 Route::get('states', [StateController::class, 'getStates']);
 
 /* ruta para miembros de un equipo */
 Route::apiResource('members', MemberController::class);
+
+/* Rutas Teams */
+Route::apiResource('teams', TeamController::class);
 

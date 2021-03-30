@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -14,11 +16,11 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $users = User::where('deleted', false)->get();
 
-        if ($users) {
+        if (is_null($users)) {
             return response()->json([
                 'message' => 'successful',
                 'data' => $users
@@ -28,7 +30,6 @@ class UserController extends Controller
                 'message' => 'not found'
             ], 404);
         }
-
     }
 
     /**
@@ -37,14 +38,14 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $data = $request->all();
 
         $user = new User();
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->password = bcrypt($data['password']);
+        $user->password = $data['password'] = Hash::make($request->password);
         $user->deleted = false;
 
         $user->save();
@@ -55,12 +56,39 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function show($id)
+    public function login(Request $request): JsonResponse
     {
-        $user = User::find($id);
+        $user = User::where('email', $request->email)->where('deleted', false)->first();
+
+        if (!is_null($user) && Hash::check($request->password, $user->password)) {
+            $user->api_token = Str::random(100);
+            $user->save();
+
+            return response()->json([
+                'message' => 'logging successful',
+                'token' => $user->api_token
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'wrong credentials'
+            ], 205);
+        }
+
+    }
+
+    /**
+     * Display the specified resource.
+     * @param $name
+     * @return JsonResponse
+     */
+    public function show($name): JsonResponse
+    {
+        $user = User::where('name', $name)->where('deleted', false)->first();
 
         if ($user) {
             return response()->json([
@@ -90,11 +118,24 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param User $user
-     * @return Response
+     * @param User $name
+     * @return JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(User $name): JsonResponse
     {
-        //
+        $user = User::where('name', $name)->first();
+
+        if (!is_null($user)) {
+            $user->deleted = true;
+            $user->save();
+
+            return response()->json([
+                'message' => 'category deleted'
+            ], 204);
+        } else {
+            return response()->json([
+                'message' => 'not found',
+            ], 200);
+        }
     }
 }
