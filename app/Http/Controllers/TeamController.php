@@ -97,4 +97,5 @@ class TeamController extends Controller
             'teams' => $team
         ]);
     }
+
 }

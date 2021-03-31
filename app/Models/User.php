@@ -48,7 +48,7 @@ class User extends Authenticatable
     // por que CREA muchas tareas
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->morphMany(Task::class, 'taskable');
     }
 
     // preguntar sobre la relacion

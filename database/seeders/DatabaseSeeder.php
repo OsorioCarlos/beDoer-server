@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use App\Models\TasksCategory;
-use App\Models\TasksMember;
-use App\Models\TasksTag;
+// use App\Models\TasksCategory;
+// use App\Models\TasksMember;
+// use App\Models\TasksTag;
 use App\Models\Category;
 use App\Models\Member;
 use App\Models\Role;
@@ -55,15 +55,33 @@ class DatabaseSeeder extends Seeder
             'name' => 'done'
         ]);
 
-        User::factory(10)->create();
-        Role::factory(5)->create();
-        Team::factory(15)->create();
-        Member::factory(60)->create();
-        Task::factory(100)->create();
-        Category::factory(5)->create();
+        Role::factory(3)->create();
         Tag::factory(5)->create();
-        TasksMember::factory(600)->create();
-        TasksTag::factory(500)->create();
-        TasksCategory::factory(500)->create();
+        Category::factory(5)->create();
+        
+        User::factory(5)->create()->each(function ($user) {
+            $number_tasks = rand(1, 11);
+
+            for ($i=0; $i < $number_tasks; $i++) { 
+                $user->tasks()->save(Task::factory()->make());
+            }
+            
+        });
+
+        Team::factory(10)->create()->each(function ($team) {
+            $number_tasks = rand(1, 11);
+
+            for ($i=0; $i < $number_tasks; $i++) { 
+                $team->tasks()->save(Task::factory()->make());
+            }
+            
+        });
+
+        Member::factory(30)->create();
+        
+        
+        //TasksMember::factory(600)->create();
+        //TasksTag::factory(500)->create();
+        //TasksCategory::factory(500)->create();
     }
 }

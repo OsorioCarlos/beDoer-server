@@ -34,6 +34,14 @@ Route::apiResource('categories', CategoryController::class);
 
 /* Rutas Task */
 Route::apiResource('tasks', TaskController::class);
+Route::group(['prefix' => 'team-tasks'], function () {
+    Route::get('{id}', [TaskController::class, 'indexTeamTasks']);
+    Route::post('', [TaskController::class, 'storeTeamTasks']);
+});
+Route::group(['prefix' => 'user-tasks'], function () {
+    Route::get('{id}', [TaskController::class, 'indexUserTasks']);
+    Route::post('', [TaskController::class, 'storeUserTasks']);
+});
 
 /* Rutas Role  */
 Route::apiResource("roles", RoleController::class);

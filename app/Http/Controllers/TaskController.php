@@ -3,37 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
+   /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    
+    public function indexUserTasks($id)
     {
-        $data = $request->json()->all();
+        $user = User::find($id);
+        $tasks = $user->tasks()->where('deleted', false)->get();
 
-        // Devuelve todas las tareas de un usuario
-        if ($data['team_id'] == null && $data['user_id'] != null) {
-            $tasks = Task::where('created_by', $data['user_id'])
-                ->where('deleted', false)
-                // ->join('tag_tasks', 'tasks.id', '=', 'tag_tasks.task_id')
-                // ->join('tags', 'tags.id', '=', 'tag_tasks.tag_id')
-                // ->select('tasks.id', 'tasks.title', 'tasks.description', 'tasks.expiration_date', 'tags.name as tag_name', 'tasks.state_id')
-                //->with('tag_tasks')
-                ->get();
-        }
+        return response()->json([
+            'data' => [
+                'tasks' => $tasks
+            ],
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ]);
+    }
 
-        // Devuelve todas las tareas de un equipo
-        if ($data['team_id'] != null && $data['user_id'] == null) {
-            $tasks = Task::where('teamspace', $data['team_id'])
-                ->where('deleted', false)
-                ->select('id', 'title', 'description', 'expiration_date', 'state_id')
-                ->get();
-        }
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function indexTeamTasks($id)
+    {
+        $team = Team::find($id);
+        $tasks = $team->tasks()->where('deleted', false)->get();
 
         return response()->json([
             'data' => [
@@ -53,19 +61,46 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function storeUserTasks(Request $request)
     {
         $data = $request->json()->all();
+
+        $user = User::find($data['user_id']);
 
         $task = new Task();
         $task->title = $data['title'];
         $task->description = $data['description'];
         $task->expiration_date = $data['expiration_date'];
         $task->state_id = $data['state_id'];
-        $task->created_by = $data['created_by'];
-        $task->teamspace = $data['teamspace'];
 
-        $task->save();
+        $user->tasks()->save($task);
+
+        return response()->json([
+            'data' => [
+                'task' => $task
+            ]
+        ], 201);
+    }
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeTeamTasks(Request $request)
+    {
+        $data = $request->json()->all();
+
+        $team = Team::find($data['team_id']);
+
+        $task = new Task();
+        $task->title = $data['title'];
+        $task->description = $data['description'];
+        $task->expiration_date = $data['expiration_date'];
+        $task->state_id = $data['state_id'];
+
+        $team->tasks()->save($task);
 
         return response()->json([
             'data' => [
@@ -84,7 +119,7 @@ class TaskController extends Controller
     {
         return response()->json([
             'data' => [
-                'task' => $task
+                'task' => $task,
             ]], 200);
     }
 
