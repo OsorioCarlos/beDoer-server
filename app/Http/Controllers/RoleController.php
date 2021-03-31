@@ -33,7 +33,7 @@ class RoleController extends Controller
 
         $role = new Role();
         $role->name = $data['name'];
-        $role->is_deleted = false;
+        $role->deleted = false;
 
         $role->save();
 
@@ -67,10 +67,10 @@ class RoleController extends Controller
     {
 
         $data = $request->json()->all();
-        $role = new Role($id);
+        $role = Role::find($id);
 
         $role->name = $data['name'];
-        $role->is_deleted = false;
+        $role->deleted = false;
 
         $role->save();
 
@@ -89,7 +89,7 @@ class RoleController extends Controller
     {
 
         $role = Role::find($id);
-        $role->is_deleted = true;
+        $role->deleted = true;
         $role->delete();
 
         return response()->json([

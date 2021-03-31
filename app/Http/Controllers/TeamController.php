@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class TeamController extends Controller
         $team = new Team();
         $team-> name = $data['name'];
         $team->description = $data['description'];
-        $team->is_deleted = false;
+        $team->deleted = false;
 
         $team->save();
 
@@ -65,14 +66,14 @@ class TeamController extends Controller
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,  $id)
     {
         $data = $request->json()->all();
         $team = Team::find($id);
 
         $team-> name = $data['name'];
         $team->description = $data['description'];
-        $team->is_deleted = false;
+        $team->deleted = false;
 
         $team->save();
 
@@ -90,7 +91,7 @@ class TeamController extends Controller
     public function destroy($id)
     {
         $team = Team::find($id);
-        $team->is_deleted = true;
+        $team->deleted = true;
         $team->delete();
 
         return response()->json([
