@@ -8,7 +8,6 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,21 +15,24 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| Rutas de la REst Api de Be-Doer
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('login', [UserController::class, 'login']);
+Route::post('register', [UserController::class, 'store']);
+//Route::apiResource('users', UserController::class)->except('store');
 
-/* Rutas Teams */
-Route::apiResource('teams', TeamController::class);
+Route::middleware(['auth:api', function(){
+    Route::apiResource('users', UserController::class)->except('store');
+}]);
+
 
 /* Rutas Categories */
-Route::apiResource('categories', CategoryController::class);
+//esta en group fix, en el caso de que se requiera mas funcionalidad en el controlador.
+Route::group(['prefix' => 'categories'], function () {
+    Route::get('', [CategoryController::class, 'index']);
+});
 
 /* Rutas Task */
 Route::apiResource('tasks', TaskController::class);
@@ -49,12 +51,12 @@ Route::apiResource("roles", RoleController::class);
 /* ruta para etiquetas */
 Route::apiResource('tags', TagController::class);
 
-/* ruta para usuarios */
-Route::apiResource('users', UserController::class);
-
 /* ruta para estados */
 Route::get('states', [StateController::class, 'getStates']);
 
 /* ruta para miembros de un equipo */
-Route::apiResource('members', MemberController::class);
+Route::get('members', [MemberController::class, 'getMembers']);
+
+/* Rutas Teams */
+Route::apiResource('teams', TeamController::class);
 

@@ -12,20 +12,20 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getMembers()
     {
-        $members = Member::all();
+        $members = Member::get();
 
-        if ($members) {
-            return response()->json([
-                'members' => $members,
-                'message' => 'successful'
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'source not found'
-            ], 404);
-        }
+        return response()->json([
+            'data' => [
+                'members' => $members
+            ],
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+             ]
+            ],);
     }
 
     /**
@@ -38,14 +38,15 @@ class MemberController extends Controller
     {
         $data = $request->all();
 
-        $category = new Category();
-        $category->name = $data['name'];
-        $category->deleted = false;
+        $member = new Member();
+        $member->user_id = $data['user_id'];
+        $member->team_id = $data['team_id'];
+        $member->rol_id = $data['rol'];
 
-        $category->save();
+        $member->save();
 
         return response()->json([
-            'message' => 'categoria creada'
+            'message' => 'miembro creado'
         ], 200);
     }
 
@@ -57,11 +58,11 @@ class MemberController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
+        $member = Member::find($id);
 
-        if ($category) {
+        if ($member) {
             return response()->json([
-                'response' => $category,
+                'response' => $member,
                 'message' => 'successful'
             ], 200);
         } else {
@@ -80,26 +81,19 @@ class MemberController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        $validations = $request->validate([
-//            'name' => 'required',
-//        ]);
-        $category = Category::find($id);
+        $data = $request->json()->all();
+        $member = Member::find($id);
+        $member->user_id = $data['user_id'];
+        $member->team_id = $data['team_id'];
+        $member->rol_id = $data['rol'];
 
-        if ($category && $request->name != null) {
+        $member->save();
 
-            $category->name = $request->name;
-            $category->deleted = false;
-            $category->save();
+        return response()->json([
+            'message' =>'miembro editado',
+            'members' => $member
+        ],200);
 
-            return response()->json([
-                'message' => 'categoria editada',
-                'categoria' => $category
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'categoria no encontrada',
-            ], 200);
-        }
     }
 
     /**
@@ -110,19 +104,13 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        if ($category) {
-            $category->delete();
+        $member = Member::find($id);
+        $member->is_deleted = true;
 
-            return response()->json([
-                'message' => 'categoria eliminada',
-                'categoria' => $category
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'categoria no encontrada',
-            ], 200);
-        }
+        return response()->json([
+            'message' => 'Miembro eliminado',
+            'members' => $member
+        ],200);
 
     }
 }

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @method static where(string $string, false $false)
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -42,10 +45,6 @@ class User extends Authenticatable
     ];
 
     //    metodos de orm
-
-
-    // preguntar sobre el nombre
-    // por que CREA muchas tareas
     public function tasks()
     {
         return $this->morphMany(Task::class, 'taskable');

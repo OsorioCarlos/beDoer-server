@@ -15,8 +15,10 @@ class CreateTasksCategoriesTable extends Migration
     {
         Schema::create('tasks_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained('tasks');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('task_id')->constrained('tasks')
+                ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('category_id')->constrained('categories')
+                ->onDelete('cascade')->onUpdate('cascade');;
             $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
