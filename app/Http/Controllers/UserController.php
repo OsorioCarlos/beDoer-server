@@ -3,74 +3,92 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use function GuzzleHttp\Promise\all;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        $users = User::all();
+        $users = User::where('deleted', false)->get();
 
-        if ($users) {
+        if (is_null($users)) {
             return response()->json([
-                'users' => $users,
-                'message' => 'successful'
+                'message' => 'successful',
+                'data' => $users
             ], 200);
         } else {
             return response()->json([
-                'users' => $users,
-                'message' => 'source not found'
+                'message' => 'not found'
             ], 404);
         }
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $data = $request->all();
 
         $user = new User();
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->password = bcrypt($data['password']);
+        $user->password = $data['password'] = Hash::make($request->password);
         $user->deleted = false;
 
         $user->save();
 
         return response()->json([
-            'message' => 'usuario creado'
-        ], 200);
+            'message' => 'user created'
+        ], 201);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function login(Request $request): JsonResponse
+    {
+        $user = User::where('email', $request->email)->where('deleted', false)->first();
+
+        if (!is_null($user) && Hash::check($request->password, $user->password)) {
+            $user->api_token = Str::random(100);
+            $user->save();
+
+            return response()->json([
+                'message' => 'logging successful',
+                'token' => $user->api_token
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'wrong credentials'
+            ], 205);
+        }
+
     }
 
     /**
      * Display the specified resource.
-     * @return \Illuminate\Http\JsonResponse
+     * @param $name
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show($name): JsonResponse
     {
-        $user = User::find($id);
+        $user = User::where('name', $name)->where('deleted', false)->first();
 
         if ($user) {
             return response()->json([
@@ -80,28 +98,17 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'response' => $user,
-                'message' => 'source not found'
+                'message' => 'not found'
             ], 404);
         }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\User $user
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param User $user
+     * @return Response
      */
     public function update(Request $request, User $user)
     {
@@ -111,11 +118,24 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Http\Response
+     * @param User $name
+     * @return JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(User $name): JsonResponse
     {
-        //
+        $user = User::where('name', $name)->first();
+
+        if (!is_null($user)) {
+            $user->deleted = true;
+            $user->save();
+
+            return response()->json([
+                'message' => 'category deleted'
+            ], 204);
+        } else {
+            return response()->json([
+                'message' => 'not found',
+            ], 200);
+        }
     }
 }

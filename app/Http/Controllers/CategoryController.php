@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use http\Env\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra categorias que no esten borradas.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
-        $categories = Category::all();
+
+        $categories = Category::where('deleted', false)->get();
 
         if ($categories) {
             return response()->json([
-                'categories' => $categories,
-                'message' => 'successful'
+                'message' => 'successful',
+                'data' => $categories
             ], 200);
         } else {
             return response()->json([
@@ -31,8 +35,8 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -45,16 +49,15 @@ class CategoryController extends Controller
         $category->save();
 
         return response()->json([
-            'message' => 'categoria creada'
-        ], 200);
+            'message' => 'category create'
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Category $category
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show($id)
     {
@@ -62,8 +65,8 @@ class CategoryController extends Controller
 
         if ($category) {
             return response()->json([
-                'response' => $category,
-                'message' => 'successful'
+                'message' => 'successful',
+                'data' => $category
             ], 200);
         } else {
             return response()->json([
@@ -75,9 +78,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Category $category
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -90,13 +93,13 @@ class CategoryController extends Controller
             $category->save();
 
             return response()->json([
-                'message' => 'categoria editada',
-                'categoria' => $category
+                'message' => 'category edited',
+                'data' => $category
             ], 200);
         } else {
             return response()->json([
-                'message' => 'categoria no encontrada',
-            ], 200);
+                'message' => 'not found',
+            ], 404);
         }
 
     }
@@ -104,9 +107,8 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Category $category
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function destroy($id)
     {
@@ -115,13 +117,13 @@ class CategoryController extends Controller
             $category->delete();
 
             return response()->json([
-                'message' => 'categoria eliminada',
-                'categoria' => $category
-            ], 200);
+                'message' => 'category deleted'
+            ], 204);
         } else {
             return response()->json([
-                'message' => 'categoria no encontrada',
+                'message' => 'not found',
             ], 200);
         }
     }
+
 }
