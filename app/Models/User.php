@@ -47,7 +47,7 @@ class User extends Authenticatable
     //    metodos de orm
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->morphMany(Task::class, 'taskable');
     }
 
     // preguntar sobre la relacion
