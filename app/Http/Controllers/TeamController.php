@@ -1,4 +1,4 @@
-<?php
+xxxxxxxxxxxx<?php
 
 namespace App\Http\Controllers;
 
@@ -13,13 +13,25 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = $request->json()->all();
+
+        /*         
         $teams = Team::all();
         return response()->json([
             'teams' => $teams
-        ]);
+            ]); 
+        */
+            
+        // Obtener todas los Equipos creados por un usuario
+        if ($data['team_id'] != null && $data['user_id'] == null) {
+            $tasks = Role::where('teamspace', $data['team_id'])
+                ->where('deleted', false)
+                ->select('id', 'name', 'description')
+                ->get();
+        }
+
     }
 
     /**
