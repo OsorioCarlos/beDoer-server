@@ -47,7 +47,6 @@ class TeamController extends Controller
         $team = new Team();
         $team-> name = $data['name'];
         $team->description = $data['description'];
-        $team->deleted = false;
 
         $team->save();
 
@@ -85,7 +84,6 @@ class TeamController extends Controller
 
         $team-> name = $data['name'];
         $team->description = $data['description'];
-        $team->deleted = false;
 
         $team->save();
 
@@ -104,7 +102,7 @@ class TeamController extends Controller
     {
         $team = Team::find($id);
         $team->deleted = true;
-        $team->delete();
+        $team->save();
 
         return response()->json([
             'teams' => $team
