@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -12,13 +13,25 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = $request->json()->all();
+
+        /*         
         $teams = Team::all();
         return response()->json([
             'teams' => $teams
-        ]);
+            ]); 
+        */
+            
+        // Obtener todas los Equipos creados por un usuario
+        if ($data['team_id'] != null && $data['user_id'] == null) {
+            $tasks = Role::where('teamspace', $data['team_id'])
+                ->where('deleted', false)
+                ->select('id', 'name', 'description')
+                ->get();
+        }
+
     }
 
     /**
@@ -34,7 +47,6 @@ class TeamController extends Controller
         $team = new Team();
         $team-> name = $data['name'];
         $team->description = $data['description'];
-        $team->is_deleted = false;
 
         $team->save();
 
@@ -65,14 +77,13 @@ class TeamController extends Controller
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,  $id)
     {
         $data = $request->json()->all();
         $team = Team::find($id);
 
         $team-> name = $data['name'];
         $team->description = $data['description'];
-        $team->is_deleted = false;
 
         $team->save();
 
@@ -90,11 +101,12 @@ class TeamController extends Controller
     public function destroy($id)
     {
         $team = Team::find($id);
-        $team->is_deleted = true;
-        $team->delete();
+        $team->deleted = true;
+        $team->save();
 
         return response()->json([
             'teams' => $team
         ]);
     }
+
 }

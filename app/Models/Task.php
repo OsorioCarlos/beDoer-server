@@ -13,8 +13,6 @@ class Task extends Model
         'title',
         'description',
         'state_id',
-        'created_by',
-        'teamspace',
         'deleted'
     ];
 
@@ -38,14 +36,19 @@ class Task extends Model
         return $this->hasOne(State::class);
     }
 
-    public function team()
+    public function taskable()
     {
-        return $this->belongsTo(Team::class);
+        return $this->morphTo();
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 
 }

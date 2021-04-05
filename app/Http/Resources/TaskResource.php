@@ -16,7 +16,7 @@ class TaskResource extends JsonResource
             'state_id' => $this->state_id,
             'created_by' => $this->created_by,
             'teamspace' => $this->teamspace,
-            'is_deleted' => $this->is_deleted,
+            'deleted' => $this->deleted,
         ];
     }
 }

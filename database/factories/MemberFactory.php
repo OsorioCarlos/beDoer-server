@@ -22,9 +22,9 @@ class MemberFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' =>  random_int(2, 10),
-            'team_id' =>  random_int(2, 15),
-            'rol_id' =>  random_int(1, 5)
+            'user_id' =>  random_int(2, 5),
+            'team_id' =>  random_int(2, 10),
+            'rol_id' =>  random_int(1, 3)
         ];
     }
 }

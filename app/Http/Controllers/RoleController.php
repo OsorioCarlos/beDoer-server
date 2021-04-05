@@ -12,13 +12,27 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-
+        $data = $request->json()->all();
+        /*         
         $roles = Role::all();
         return response()->json([
             'roles' => $roles
-        ]);
+        ]); 
+        */
+        // Obtener todas los roles creados por un equipo
+
+        if ($data['team_id'] != null && $data['user_id'] == null) {
+            $roles = Role::where('teamspace', $data['team_id'])
+                ->where('deleted', false)
+                ->select('id', 'title')
+                ->get();
+        }
+
+        return response()->json([
+            'roles' => $roles
+        ]); 
     }
 
     /**
@@ -33,7 +47,6 @@ class RoleController extends Controller
 
         $role = new Role();
         $role->name = $data['name'];
-        $role->is_deleted = false;
 
         $role->save();
 
@@ -67,10 +80,9 @@ class RoleController extends Controller
     {
 
         $data = $request->json()->all();
-        $role = new Role($id);
+        $role = Role::find($id);
 
         $role->name = $data['name'];
-        $role->is_deleted = false;
 
         $role->save();
 
@@ -89,8 +101,8 @@ class RoleController extends Controller
     {
 
         $role = Role::find($id);
-        $role->is_deleted = true;
-        $role->delete();
+        $role->deleted = true;
+        $role->save();
 
         return response()->json([
             'roles' => $role

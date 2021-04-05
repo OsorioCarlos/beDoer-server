@@ -97,7 +97,8 @@ class TagController extends Controller
     public function destroy($id)
     {
         $tag = Tag::find($id);
-        $tag->is_deleted = true;
+        $tag->deleted = true;
+        $tag->save();
 
         return response()->json([
             'message' => 'Etiqueta eliminada',

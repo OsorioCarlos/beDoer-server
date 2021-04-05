@@ -18,7 +18,7 @@ class TeamResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'is_deleted' => $this->is_deleted,
+            'deleted' => $this->deleted,
 
         ];
     }
