@@ -15,9 +15,9 @@ class CreateTagsTable extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('color', 7);
-            $table->boolean('deleted')->default(false);
+            $table->string('name')->comment('Nombre de la etiqueta');
+            $table->string('color', 7)->comment('Color de la etiqueta');
+            $table->boolean('deleted')->comment('Eliminado lógico')->default(false);
             $table->timestamps();
         });
     }

@@ -19,9 +19,7 @@ class TagController extends Controller
             'tags' => $tags,
             'message' =>'successful'
         ], 200);
-
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -57,11 +55,6 @@ class TagController extends Controller
         return response()->json([
             'tags' => $tag
         ]);
-
-        // return response()->json([
-        //     'data' => [
-        //         'tags' => $tag
-        //     ]], 200);
     }
 
     /**

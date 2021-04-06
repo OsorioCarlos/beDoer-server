@@ -15,12 +15,12 @@ class CreateTeamUserTable extends Migration
     {
         Schema::create('team_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('team_id')->constrained('teams');
+            $table->foreignId('user_id')->constrained('users')->comment('Un usuario pertenece a varios equipos');
+            $table->foreignId('team_id')->constrained('teams')->comment('Un equipo tiene muchos usuarios');
             // $table->foreignId('role_id')->constrained('roles')
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
-            $table->boolean('deleted')->default(false);
+            $table->boolean('deleted')->comment('Eliminado lógico')->default(false);
         });
     }
 
@@ -31,6 +31,6 @@ class CreateTeamUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('team_users');
+        Schema::dropIfExists('team_user');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeamsTable extends Migration
+class CreateTagTaskTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTeamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('tag_task', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('Nombre del equipo');
-            $table->string('description')->comment('Descripción para el equipo')->nullable();
+            $table->foreignId('task_id')->constrained('tasks')->comment('Una tarea tiene muchas etiquetas');
+            $table->foreignId('tag_id')->constrained('tags')->comment('Una etiqueta pertenece a muchas tareas');
             $table->boolean('deleted')->comment('Eliminado lógico')->default(false);
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateTeamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('tag_task');
     }
 }

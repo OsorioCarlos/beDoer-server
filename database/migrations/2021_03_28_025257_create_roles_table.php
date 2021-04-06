@@ -15,8 +15,8 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->boolean('deleted')->default(false);
+            $table->string('name')->comment('Nombre del rol');
+            $table->boolean('deleted')->comment('Eliminado lógico')->default(false);
             $table->timestamps();
         });
     }

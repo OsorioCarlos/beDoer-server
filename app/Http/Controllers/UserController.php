@@ -46,12 +46,7 @@ class UserController extends Controller
         $user = new User();
         $user->name = $data['name'];
         $user->email = $data['email'];
-<<<<<<< HEAD
-        $user->password = Hash::make($data['password']);
-        $user->deleted = false;
-=======
         $user->password = $data['password'] = Hash::make($request->password);
->>>>>>> c215541f5fdc8f182048325236bed43d24027e32
 
 //        User::create($user);
         $user->save();

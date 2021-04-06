@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\User;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -17,16 +16,6 @@ class TeamController extends Controller
     public function index()
     {   
         $teams = Team::all();
-
-        return response()->json([
-            'teams' => $teams
-            ]);
-    }
-    
-    public function indexTeam($id)
-    {   
-        $user = User::find($id);
-        $teams = $user->teams()->where('team_user.deleted', false)->get();
 
         return response()->json([
             'teams' => $teams
@@ -62,9 +51,11 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        $team = Team::find($id);
+        $user = User::find($id);
+        $teams = $user->teams()->get();
+
         return response()->json([
-            'teams' => $team
+            'teams' => $teams
         ]);
     }
 
@@ -86,7 +77,7 @@ class TeamController extends Controller
         $team->save();
 
         return response()->json([
-            'teams' => $team
+            'teams' => null
         ]);
     }
 
@@ -103,7 +94,7 @@ class TeamController extends Controller
         $team->save();
 
         return response()->json([
-            'teams' => $team
+            'teams' => null
         ]);
     }
 
