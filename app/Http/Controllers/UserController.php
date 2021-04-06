@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class UserController extends Controller
     {
         $users = User::where('deleted', false)->get();
 
-        if (is_null($users)) {
+        if (!is_null($users)) {
             return response()->json([
                 'message' => 'successful',
                 'data' => $users
@@ -38,16 +39,21 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(CreateUserRequest $request): JsonResponse
     {
         $data = $request->all();
 
         $user = new User();
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->password = $data['password'] = Hash::make($request->password);
+<<<<<<< HEAD
+        $user->password = Hash::make($data['password']);
         $user->deleted = false;
+=======
+        $user->password = $data['password'] = Hash::make($request->password);
+>>>>>>> c215541f5fdc8f182048325236bed43d24027e32
 
+//        User::create($user);
         $user->save();
 
         return response()->json([
@@ -78,6 +84,23 @@ class UserController extends Controller
                 'message' => 'wrong credentials'
             ], 205);
         }
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        $user = auth()->user();
+        $user->api_token = null;
+
+        return response()->json([
+            'message' => 'logout successful',
+        ], 200);
 
     }
 
