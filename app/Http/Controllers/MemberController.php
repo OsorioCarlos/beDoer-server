@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Member;
+use App\Models\TeamUser;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -17,7 +16,7 @@ class MemberController extends Controller
     public function getMembers($id)
     {
         $team = Team::find($id);
-        $users = $team->users()->where('deleted', false)->get();
+        $users = $team->users()->where('team_user.deleted', false)->get();
 
         return response()->json([
             'data' => [
@@ -41,7 +40,7 @@ class MemberController extends Controller
     {
         $data = $request->all();
 
-        $member = new Member();
+        $member = new TeamUser();
         $member->user_id = $data['user_id'];
         $member->team_id = $data['team_id'];
         $member->rol_id = $data['rol'];
@@ -61,7 +60,7 @@ class MemberController extends Controller
      */
     public function show($id)
     {
-        $member = Member::find($id);
+        $member = TeamUser::find($id);
 
         if ($member) {
             return response()->json([
@@ -85,7 +84,7 @@ class MemberController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->json()->all();
-        $member = Member::find($id);
+        $member = TeamUser::find($id);
         $member->user_id = $data['user_id'];
         $member->team_id = $data['team_id'];
         $member->rol_id = $data['rol'];
@@ -107,7 +106,7 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
-        $member = Member::find($id);
+        $member = TeamUser::find($id);
         $member->is_deleted = true;
 
         return response()->json([

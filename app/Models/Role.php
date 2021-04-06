@@ -14,8 +14,8 @@ class Role extends Model
         'deleted',
     ];
     
-    public function members()
+    public function users()
     {
-        $this->belongsTo(Member::class);
+        $this->belongsToMany(User::class);
     }
 }

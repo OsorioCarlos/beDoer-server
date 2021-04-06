@@ -55,8 +55,9 @@ Route::apiResource('tags', TagController::class);
 Route::get('states', [StateController::class, 'getStates']);
 
 /* ruta para miembros de un equipo */
-Route::get('members', [MemberController::class, 'getMembers']);
+Route::get('members/{id}', [MemberController::class, 'getMembers']);
 
 /* Rutas Teams */
 Route::apiResource('teams', TeamController::class);
+Route::get('user-teams/{id}', [TeamController::class, 'indexTeam']);
 

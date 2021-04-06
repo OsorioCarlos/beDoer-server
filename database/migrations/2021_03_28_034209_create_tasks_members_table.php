@@ -16,7 +16,7 @@ class CreateTasksMembersTable extends Migration
         Schema::create('tasks_members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('task_by')->constrained('tasks');
-            $table->foreignId('member_id')->constrained('members');
+            $table->foreignId('team_user_id')->constrained('team_user');
             $table->timestamps();
         });
     }

@@ -8,12 +8,12 @@ use Illuminate\Database\Seeder;
 // use App\Models\TasksMember;
 // use App\Models\TasksTag;
 use App\Models\Category;
-use App\Models\Member;
 use App\Models\Role;
 use App\Models\State;
 use App\Models\Tag;
 use App\Models\Task;
 use App\Models\Team;
+// use App\Models\TeamUser;
 use App\Models\User;
 
 class DatabaseSeeder extends Seeder
@@ -74,14 +74,23 @@ class DatabaseSeeder extends Seeder
             for ($i=0; $i < $number_tasks; $i++) { 
                 $team->tasks()->save(Task::factory()->make());
             }
+
+            $team->users()->attach($this->array(rand(2, 6)));
             
         });
-
-        Member::factory(30)->create();
-        
         
         //TasksMember::factory(600)->create();
-        //TasksTag::factory(500)->create();
         //TasksCategory::factory(500)->create();
+    }
+
+    public function array($max)
+    {
+        $values = [];
+
+        for ($i=2; $i <= $max; $i++) { 
+            $values[] = $i;
+        }
+
+        return $values;
     }
 }
