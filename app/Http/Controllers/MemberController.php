@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Member;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -13,13 +14,14 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getMembers()
+    public function getMembers($id)
     {
-        $members = Member::get();
+        $team = Team::find($id);
+        $users = $team->users()->where('deleted', false)->get();
 
         return response()->json([
             'data' => [
-                'members' => $members
+                'users' => $users
             ],
             'msg' => [
                 'summary' => 'success',
