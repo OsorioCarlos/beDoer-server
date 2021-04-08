@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Enlista todos los usuarios que no esten borrados.
      *
      * @return JsonResponse
      */
@@ -34,7 +35,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crea un usuario.
      *
      * @param Request $request
      * @return JsonResponse
@@ -46,12 +47,9 @@ class UserController extends Controller
         $user = new User();
         $user->name = $data['name'];
         $user->email = $data['email'];
-<<<<<<< HEAD
-        $user->password = Hash::make($data['password']);
         $user->deleted = false;
-=======
         $user->password = $data['password'] = Hash::make($request->password);
->>>>>>> c215541f5fdc8f182048325236bed43d24027e32
+
 
 //        User::create($user);
         $user->save();
@@ -62,7 +60,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Login de un usuario
      *
      * @param Request $request
      * @return JsonResponse
@@ -88,7 +86,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Logout de un usuario.
      *
      * @param Request $request
      * @return JsonResponse
@@ -105,7 +103,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Visualizacion de un suario por nombre.
      * @param $name
      * @return JsonResponse
      */
@@ -127,15 +125,27 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizacion de los datos del usuario logeado.
      *
      * @param Request $request
      * @param User $user
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): JsonResponse
     {
-        //
+        $user = User::findOrFail('id', $user->id);
+        $data = $request->json()->all();
+
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->deleted = false;
+        $user->password = $data['password'] = Hash::make($request->password);
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'user edited'
+        ], 200);
     }
 
     /**
@@ -161,5 +171,4 @@ class UserController extends Controller
             ], 200);
         }
     }
-    
-}
+

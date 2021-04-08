@@ -14,7 +14,7 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    
+
     public function indexUserTasks($id)
     {
         $user = User::find($id);
@@ -81,7 +81,7 @@ class TaskController extends Controller
             ]
         ], 201);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -162,4 +162,6 @@ class TaskController extends Controller
             'task' => $task
         ]);
     }
+
+
 }

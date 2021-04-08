@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Rutas de la REst Api de Be-Doer
+| Rutas de la Rest Api de Be-Doer
 |
 */
 
