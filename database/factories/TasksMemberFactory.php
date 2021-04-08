@@ -23,7 +23,7 @@ class TasksMemberFactory extends Factory
     {
         return [
             'task_by' => random_int(1, 100),
-            'member_id' => random_int(1, 60),
+            'team_user_id' => random_int(1, 60),
         ];
     }
 }

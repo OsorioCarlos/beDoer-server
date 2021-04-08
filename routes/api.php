@@ -27,6 +27,7 @@ Route::middleware(['auth:api', function(){
     Route::apiResource('users', UserController::class)->except('store');
 }]);
 
+// Route::get('users', [UserController::class, 'index']);
 
 /* Rutas Categories */
 //esta en group fix, en el caso de que se requiera mas funcionalidad en el controlador.
@@ -46,7 +47,7 @@ Route::group(['prefix' => 'user-tasks'], function () {
 });
 
 /* Rutas Role  */
-Route::apiResource("roles", RoleController::class);
+Route::apiResource('roles', RoleController::class);
 
 /* ruta para etiquetas */
 Route::apiResource('tags', TagController::class);
@@ -55,8 +56,7 @@ Route::apiResource('tags', TagController::class);
 Route::get('states', [StateController::class, 'getStates']);
 
 /* ruta para miembros de un equipo */
-Route::get('members', [MemberController::class, 'getMembers']);
+Route::get('members/{id}', [MemberController::class, 'getMembers']);
 
 /* Rutas Teams */
 Route::apiResource('teams', TeamController::class);
-

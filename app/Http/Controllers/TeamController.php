@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+use App\Models\User;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -13,25 +13,13 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
-    {
-        $data = $request->json()->all();
-
-        /*         
+    public function index()
+    {   
         $teams = Team::all();
+
         return response()->json([
             'teams' => $teams
-            ]); 
-        */
-            
-        // Obtener todas los Equipos creados por un usuario
-        if ($data['team_id'] != null && $data['user_id'] == null) {
-            $tasks = Role::where('teamspace', $data['team_id'])
-                ->where('deleted', false)
-                ->select('id', 'name', 'description')
-                ->get();
-        }
-
+            ]);
     }
 
     /**
@@ -63,10 +51,11 @@ class TeamController extends Controller
      */
     public function show($id)
     {
+        $user = User::find($id);
+        $teams = $user->teams()->get();
 
-        $team = Team::find($id);
         return response()->json([
-            'teams' => $team
+            'teams' => $teams
         ]);
     }
 
@@ -88,7 +77,7 @@ class TeamController extends Controller
         $team->save();
 
         return response()->json([
-            'teams' => $team
+            'teams' => null
         ]);
     }
 
@@ -105,7 +94,7 @@ class TeamController extends Controller
         $team->save();
 
         return response()->json([
-            'teams' => $team
+            'teams' => null
         ]);
     }
 

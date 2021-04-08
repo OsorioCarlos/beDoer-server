@@ -12,24 +12,9 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index()
     {
-        $data = $request->json()->all();
-        /*         
         $roles = Role::all();
-        return response()->json([
-            'roles' => $roles
-        ]); 
-        */
-        // Obtener todas los roles creados por un equipo
-
-        if ($data['team_id'] != null && $data['user_id'] == null) {
-            $roles = Role::where('teamspace', $data['team_id'])
-                ->where('deleted', false)
-                ->select('id', 'title')
-                ->get();
-        }
-
         return response()->json([
             'roles' => $roles
         ]); 

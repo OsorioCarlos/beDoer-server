@@ -4,11 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-// use App\Models\TasksCategory;
-// use App\Models\TasksMember;
-// use App\Models\TasksTag;
+
 use App\Models\Category;
-use App\Models\Member;
 use App\Models\Role;
 use App\Models\State;
 use App\Models\Tag;
@@ -25,6 +22,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        State::create(['id' => 1, 'name' => 'not state']);
+        State::create(['id' => 2, 'name' => 'to do']);
+        State::create(['id' => 3, 'name' => 'doing']);
+        State::create(['id' => 4,'name' => 'done']);
+
+        Role::create(['name' => 'Scrum Master']);
+        Role::create(['name' => 'Product Owner']);
+        Role::create(['name' => 'Developer']);
+
+        Tag::factory(5)->create();
+        Category::factory(5)->create();
 
         User::create([
             // 'id' => 1,
@@ -34,54 +42,33 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('159'),
             'remember_token' => Str::random(10)
         ]);
-
-        State::create([
-            'id' => 1,
-            'name' => 'not state'
-        ]);
-
-        State::create([
-            'id' => 2,
-            'name' => 'to do'
-        ]);
-
-        State::create([
-            'id' => 3,
-            'name' => 'doing'
-        ]);
-
-        State::create([
-            'id' => 4,
-            'name' => 'done'
-        ]);
-
-        Role::factory(3)->create();
-        Tag::factory(5)->create();
-        Category::factory(5)->create();
-        
-        User::factory(5)->create()->each(function ($user) {
+        User::factory(10)->create()->each(function ($user) {
             $number_tasks = rand(1, 11);
 
             for ($i=0; $i < $number_tasks; $i++) { 
                 $user->tasks()->save(Task::factory()->make());
             }
-            
         });
 
-        Team::factory(10)->create()->each(function ($team) {
+        Team::factory(5)->create()->each(function ($team) {
             $number_tasks = rand(1, 11);
 
             for ($i=0; $i < $number_tasks; $i++) { 
                 $team->tasks()->save(Task::factory()->make());
             }
-            
-        });
 
-        Member::factory(30)->create();
-        
-        
-        //TasksMember::factory(600)->create();
-        //TasksTag::factory(500)->create();
-        //TasksCategory::factory(500)->create();
+            $team->users()->attach($this->array(rand(2, 11))); 
+        });
+    }
+
+    public function array($max)
+    {
+        $values = [];
+
+        for ($i=2; $i <= $max; $i++) { 
+            $values[] = $i;
+        }
+
+        return $values;
     }
 }

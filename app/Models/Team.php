@@ -20,13 +20,6 @@ class Team extends Model
         return $this->morphMany(Task::class, 'taskable');
     }
 
-    // preguntar sobre la relacion
-
-    // public function members()
-    // {
-    //     return $this->hasMany(Member::class);
-    // }
-
     public function users()
     {
         return $this->belongsToMany(User::class);

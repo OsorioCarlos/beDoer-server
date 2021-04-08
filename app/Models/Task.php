@@ -26,11 +26,6 @@ class Task extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function members()
-    {
-        return $this->belongsToMany(Member::class);
-    }
-
     public function state()
     {
         return $this->hasOne(State::class);
