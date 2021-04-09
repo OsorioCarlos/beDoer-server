@@ -70,12 +70,14 @@ class UserController extends Controller
         $user = User::where('email', $request->email)->where('deleted', false)->first();
 
         if (!is_null($user) && Hash::check($request->password, $user->password)) {
-            $user->api_token = Str::random(100);
+//            $user->api_token = Str::random(100); //sanctum
+            $token = $user->createToken('authToken');
+
             $user->save();
 
             return response()->json([
                 'message' => 'logging successful',
-                'token' => $user->api_token
+                'token' => $token->plainTextToken
             ], 200);
         } else {
             return response()->json([

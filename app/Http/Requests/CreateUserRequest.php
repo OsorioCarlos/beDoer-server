@@ -29,4 +29,6 @@ class CreateUserRequest extends FormRequest
             'password' => 'required|'
         ];
     }
+
+    //crear los mensajes para el Cleinte
 }

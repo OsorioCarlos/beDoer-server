@@ -4,6 +4,13 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Illuminate\Database\QueryException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Throwable;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -33,5 +40,26 @@ class Handler extends ExceptionHandler
     public function register()
     {
         //
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof HttpException) {
+            return response()->json([
+                'data' => $e->getMessage(),
+                'msg' => [
+                    'summary' => 'Recurso no encontrado',
+                    'detail' => '',
+                    'code' => '404',
+                ]], 404);
+        }
+
+        return response()->json([
+            'data' => $e->getMessage(),
+            'msg' => [
+                'summary' => $e->getMessage(),
+                'detail' => 'Comnicate con el administrador'
+            ]], 500);
+//        return parent::render($request, $e);
     }
 }

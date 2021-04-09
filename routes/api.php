@@ -19,13 +19,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', [UserController::class, 'login']);
-Route::post('register', [UserController::class, 'store']);
+Route::post('login', [UserController::class, 'login'])->withoutMiddleware('auth:api');
+Route::post('register', [UserController::class, 'store'])->withoutMiddleware('auth:api');
 //Route::apiResource('users', UserController::class)->except('store');
 
-Route::middleware(['auth:api', function(){
-    Route::apiResource('users', UserController::class)->except('store');
-}]);
+Route::apiResource('users', UserController::class)->except('store');
 
 // Route::get('users', [UserController::class, 'index']);
 
