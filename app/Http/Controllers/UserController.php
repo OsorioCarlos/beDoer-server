@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateUserRequest;
-use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+
+use App\Http\Requests\UserRequest\CreateUserRequest;
+use App\Http\Requests\UserRequest\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -37,7 +36,7 @@ class UserController extends Controller
     /**
      * Crea un usuario.
      *
-     * @param Request $request
+     * @param CreateUserRequest $request
      * @return JsonResponse
      */
     public function store(CreateUserRequest $request): JsonResponse
@@ -70,8 +69,7 @@ class UserController extends Controller
         $user = User::where('email', $request->email)->where('deleted', false)->first();
 
         if (!is_null($user) && Hash::check($request->password, $user->password)) {
-//            $user->api_token = Str::random(100); //sanctum
-            $token = $user->createToken('authToken');
+            $token = $user->createToken('user-token'); //sanctum libreria para generar los tokens
 
             $user->save();
 
@@ -96,7 +94,7 @@ class UserController extends Controller
     public function logout(Request $request): JsonResponse
     {
         $user = auth()->user();
-        $user->api_token = null;
+        $user->tokens()->delete();
 
         return response()->json([
             'message' => 'logout successful',
@@ -129,19 +127,25 @@ class UserController extends Controller
     /**
      * Actualizacion de los datos del usuario logeado.
      *
-     * @param Request $request
-     * @param User $user
+     * @param UpdateUserRequest $request
+     * @param $id
      * @return JsonResponse
      */
-    public function update(Request $request, User $user): JsonResponse
+    public function update(UpdateUserRequest $request, $id): JsonResponse
     {
-        $user = User::findOrFail('id', $user->id);
+        $user = User::findOrFail('id', $id);
         $data = $request->json()->all();
 
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->deleted = false;
-        $user->password = $data['password'] = Hash::make($request->password);
+
+        if ($user->password != null){
+            $user->password = $data['password'] = Hash::make($request->password);
+//            $user->password = bcrypt($data['password']);
+        }else{
+            unset($data['password']);
+        }
 
         $user->save();
 
@@ -153,12 +157,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param User $name
+     * @param $id
      * @return JsonResponse
      */
-    public function destroy(User $name): JsonResponse
+    public function destroy($id): JsonResponse
     {
-        $user = User::where('name', $name)->first();
+        $user = User::where('id', $id)->first();
 
         if (!is_null($user)) {
             $user->deleted = true;

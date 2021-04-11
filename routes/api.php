@@ -21,17 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [UserController::class, 'login'])->withoutMiddleware('auth:api');
 Route::post('register', [UserController::class, 'store'])->withoutMiddleware('auth:api');
+Route::post('logout', [UserController::class, 'logout']);
 //Route::apiResource('users', UserController::class)->except('store');
 
 Route::apiResource('users', UserController::class)->except('store');
-
-// Route::get('users', [UserController::class, 'index']);
-
-/* Rutas Categories */
-//esta en group fix, en el caso de que se requiera mas funcionalidad en el controlador.
-Route::group(['prefix' => 'categories'], function () {
-    Route::get('', [CategoryController::class, 'index']);
-});
+Route::get('categories', [CategoryController::class, 'index']);
 
 /* Rutas Task */
 Route::apiResource('tasks', TaskController::class);
