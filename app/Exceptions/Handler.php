@@ -92,7 +92,7 @@ class Handler extends ExceptionHandler
                 'msg' => [
                     'summary' => 'Error en la validacion de campos',
                     'detail' => 'Intente de nuevo'
-                ]], 400);
+                ]], 422);
         }
 
         if ($e instanceof \Error) {

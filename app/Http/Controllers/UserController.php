@@ -133,7 +133,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id): JsonResponse
     {
-        $user = User::findOrFail('id', $id);
+        $user = User::findOrFail($id);
         $data = $request->json()->all();
 
         $user->name = $data['name'];
@@ -142,7 +142,6 @@ class UserController extends Controller
 
         if ($user->password != null){
             $user->password = $data['password'] = Hash::make($request->password);
-//            $user->password = bcrypt($data['password']);
         }else{
             unset($data['password']);
         }
