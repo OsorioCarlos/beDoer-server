@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\State;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Team;
@@ -21,14 +22,8 @@ class TaskController extends Controller
         $tasks = $user->tasks()->where('deleted', false)->get();
 
         return response()->json([
-            'data' => [
-                'tasks' => $tasks
-            ],
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
-            ]
+            'data' => $tasks,
+            'message' => 'tareas de usuario obtenidas con éxito'
         ]);
     }
 
@@ -44,14 +39,8 @@ class TaskController extends Controller
         $tasks = $team->tasks()->where('deleted', false)->get();
 
         return response()->json([
-            'data' => [
-                'tasks' => $tasks
-            ],
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
-            ]
+            'data' => $tasks,
+            'message' => 'tareas de equipo obtenidas con éxito'
         ]);
     }
 
@@ -63,22 +52,18 @@ class TaskController extends Controller
      */
     public function storeUserTasks(Request $request)
     {
-        $data = $request->json()->all();
-
-        $user = User::find($data['user_id']);
+        $user = User::findOrFail($request->input('user_id'));
 
         $task = new Task();
-        $task->title = $data['title'];
-        $task->description = $data['description'];
-        $task->expiration_date = $data['expiration_date'];
-        $task->state_id = $data['state_id'];
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+        $task->expiration_date = $request->input('expiration_date');
+        $task->state()->associate(State::findOrFail($request->input('state_id')));
 
         $user->tasks()->save($task);
 
         return response()->json([
-            'data' => [
-                'task' => $task
-            ]
+            'message' => 'tarea de usuario creada con éxito'
         ], 201);
     }
 
@@ -90,25 +75,21 @@ class TaskController extends Controller
      */
     public function storeTeamTasks(Request $request)
     {
-        $data = $request->json()->all();
-
-        $team = Team::find($data['team_id']);
+        $team = Team::findOrFail($request->input('team_id'));
 
         $task = new Task();
-        $task->title = $data['title'];
-        $task->description = $data['description'];
-        $task->expiration_date = $data['expiration_date'];
-        $task->state_id = $data['state_id'];
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+        $task->expiration_date = $request->input('expiration_date');
+        $task->state()->associate(State::findOrFail($request->input('state_id')));
 
         $team->tasks()->save($task);
 
         return response()->json([
-            'data' => [
-                'task' => $task
-            ]
+            'message' => 'tarea de equipo creada con éxito'
         ], 201);
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -118,9 +99,9 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         return response()->json([
-            'data' => [
-                'task' => $task,
-            ]], 200);
+            'data' => $task,
+            'message' => 'tarea obtenida con éxito'
+        ], 200);
     }
 
     /**
@@ -132,18 +113,15 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $data = $request->json()->all();
-
-        $task->title = $data['title'];
-        $task->description = $data['description'];
-        $task->expiration_date = $data['expiration_date'];
-        $task->state_id = $data['state_id'];
-
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+        $task->expiration_date = $request->input('expiration_date');
+        $task->state()->associate(State::findOrFail($request->input('state_id')));
+        
         $task->save();
+
         return response()->json([
-            'data' => [
-                'task' => $task
-            ]
+            'message' => 'tarea editada con éxito'
         ], 201);
     }
 
@@ -159,7 +137,7 @@ class TaskController extends Controller
         $task->save();
 
         return response()->json([
-            'task' => $task
+            'message' => 'tarea eliminada con éxito'
         ]);
     }
 

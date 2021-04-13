@@ -18,14 +18,8 @@ class MemberController extends Controller
         $users = $team->users()->where('team_user.deleted', false)->get();
 
         return response()->json([
-            'data' => [
-                'users' => $users
-            ],
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
-             ]
-            ]);
+            'data' => $users,
+            'message' => 'miembros obtenidos con éxito'
+        ]);
     }
 }

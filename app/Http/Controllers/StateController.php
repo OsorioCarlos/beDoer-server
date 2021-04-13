@@ -18,14 +18,8 @@ class StateController extends Controller
         $states = State::get();
 
         return response()->json([
-            'data' => [
-                'states' => $states
-            ],
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
-            ]
+            'data' => $states,
+            'message' => 'estados obtenidos con éxito'
         ]);
     }
 }

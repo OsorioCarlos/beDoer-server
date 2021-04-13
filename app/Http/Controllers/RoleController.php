@@ -16,7 +16,8 @@ class RoleController extends Controller
     {
         $roles = Role::all();
         return response()->json([
-            'roles' => $roles
+            'data' => $roles,
+            'message' => 'roles obtenidos con éxito'
         ]); 
     }
 
@@ -36,7 +37,7 @@ class RoleController extends Controller
         $role->save();
 
         return response()->json([
-            'roles' => $role
+            'message' => 'rol creado con éxito'
         ]);
     }
 
@@ -50,7 +51,8 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
         return response()->json([
-            'roles' => $role
+            'data' => $role,
+            'message' => 'rol obtenido con éxito'
         ]);
     }
 
@@ -72,7 +74,7 @@ class RoleController extends Controller
         $role->save();
 
         return response()->json([
-            'roles' => $role
+            'message' => 'rol editado con éxito'
         ]);
     }
 
@@ -90,7 +92,7 @@ class RoleController extends Controller
         $role->save();
 
         return response()->json([
-            'roles' => $role
+            'message' => 'rol eliminado con éxito'
         ]);
     }
 }

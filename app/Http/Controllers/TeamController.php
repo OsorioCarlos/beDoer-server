@@ -18,8 +18,9 @@ class TeamController extends Controller
         $teams = Team::all();
 
         return response()->json([
-            'teams' => $teams
-            ]);
+            'data' => $teams,
+            'message' => 'equipos obtenidos con éxito'
+        ]);
     }
 
     /**
@@ -30,32 +31,32 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->json()->all();
-
         $team = new Team();
-        $team-> name = $data['name'];
-        $team->description = $data['description'];
+        $team->name = $request->input('name');
+        $team->description = $request->input('description');
 
         $team->save();
 
+        $team->users()->attach($request->input('user_id'), ['team_id' => $team->id]);
+
         return response()->json([
-            'teams' => $team
+            'message' => 'equipo creado con éxito'
         ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $user = User::find($id);
-        $teams = $user->teams()->get();
+        $user = User::findOrfail($id);
+        $teams = $user->teams()->where('teams.deleted', false)->get();
 
         return response()->json([
-            'teams' => $teams
+            'data' => $teams,
+            'message' => 'equipos obtenidos con éxito'
         ]);
     }
 
@@ -66,18 +67,15 @@ class TeamController extends Controller
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request,  $id)
+    public function update(Request $request, Team $team)
     {
-        $data = $request->json()->all();
-        $team = Team::find($id);
-
-        $team-> name = $data['name'];
-        $team->description = $data['description'];
+        $team-> name = $request->input('name');
+        $team->description = $request->input('description');
 
         $team->save();
 
         return response()->json([
-            'teams' => null
+            'message' => 'equipo editado con éxito'
         ]);
     }
 
@@ -87,14 +85,13 @@ class TeamController extends Controller
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Team $team)
     {
-        $team = Team::find($id);
         $team->deleted = true;
         $team->save();
 
         return response()->json([
-            'teams' => null
+            'message' => 'equipo eliminado con éxito'
         ]);
     }
 

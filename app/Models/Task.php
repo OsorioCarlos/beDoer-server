@@ -12,7 +12,7 @@ class Task extends Model
     protected $fillable = [
         'title',
         'description',
-        'state_id',
+        'expiration_date',
         'deleted'
     ];
 
@@ -28,7 +28,7 @@ class Task extends Model
 
     public function state()
     {
-        return $this->hasOne(State::class);
+        return $this->belongsTo(State::class);
     }
 
     public function taskable()
@@ -45,5 +45,4 @@ class Task extends Model
     {
         return $this->belongsTo(Team::class);
     }
-
 }

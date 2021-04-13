@@ -23,14 +23,14 @@ class UserController extends Controller
 
         if (!is_null($users)) {
             return response()->json([
-                'message' => 'successful',
-                'data' => $users
+                'data' => $users,
+                'message' => 'usuarios obtenidos con éxito'
             ], 200);
-        } else {
-            return response()->json([
-                'message' => 'not found'
-            ], 404);
         }
+
+        return response()->json([
+            'message' => 'no se encontraron usuarios'
+        ], 404);
     }
 
     /**
@@ -46,7 +46,6 @@ class UserController extends Controller
         $user = new User();
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->deleted = false;
         $user->password = $data['password'] = Hash::make($request->password);
 
         $user->password = $data['password'] = Hash::make($request->password);
@@ -54,7 +53,7 @@ class UserController extends Controller
         $user->save();
 
         return response()->json([
-            'message' => 'user created'
+            'message' => 'usuario creado con éxito'
         ], 201);
     }
 
@@ -74,14 +73,14 @@ class UserController extends Controller
             $user->save();
 
             return response()->json([
-                'message' => 'logging successful',
-                'token' => $token->plainTextToken
+                'token' => $token->plainTextToken,
+                'message' => 'usuario logueado con éxito',
             ], 200);
-        } else {
-            return response()->json([
-                'message' => 'wrong credentials'
-            ], 205);
         }
+
+        return response()->json([
+            'message' => 'credenciales incorrectas'
+        ], 205);
 
     }
 
@@ -97,7 +96,7 @@ class UserController extends Controller
         $user->tokens()->delete();
 
         return response()->json([
-            'message' => 'logout successful',
+            'message' => 'usuario des-logueado con éxito',
         ], 200);
 
     }
@@ -113,15 +112,15 @@ class UserController extends Controller
 
         if ($user) {
             return response()->json([
-                'response' => $user,
-                'message' => 'successful'
+                'data' => $user,
+                'message' => 'usuario obtenido con éxito'
             ], 200);
-        } else {
-            return response()->json([
-                'response' => $user,
-                'message' => 'not found'
-            ], 404);
         }
+
+        return response()->json([
+            'data' => $user,
+            'message' => 'no se encontró al usuario'
+        ], 404);
     }
 
     /**
@@ -138,19 +137,18 @@ class UserController extends Controller
 
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->deleted = false;
 
         if ($user->password != null){
             $user->password = $data['password'] = Hash::make($request->password);
 //            $user->password = bcrypt($data['password']);
-        }else{
+        } else {
             unset($data['password']);
         }
 
         $user->save();
 
         return response()->json([
-            'message' => 'user edited'
+            'message' => 'usuario editado con éxito'
         ], 200);
     }
 
@@ -169,13 +167,13 @@ class UserController extends Controller
             $user->save();
 
             return response()->json([
-                'message' => 'category deleted'
+                'message' => 'usuario eliminado con éxito'
             ], 204);
-        } else {
-            return response()->json([
-                'message' => 'not found',
-            ], 200);
         }
+
+        return response()->json([
+            'message' => 'error al eliminar el usuario',
+        ], 200);
     }
 
 }

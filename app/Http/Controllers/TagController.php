@@ -16,8 +16,8 @@ class TagController extends Controller
     {
         $tags = Tag::all();
         return response()->json([
-            'tags' => $tags,
-            'message' =>'successful'
+            'data' => $tags,
+            'message' => 'etiquetas obtenidas con éxito'
         ], 200);
     }
 
@@ -38,7 +38,7 @@ class TagController extends Controller
         $tag->save();
 
         return response()->json([
-            'message' => 'Etiqueta  creada'
+            'message' => 'etiqueta creada con éxito'
         ],200);
 
     }
@@ -53,7 +53,8 @@ class TagController extends Controller
     {
         $tag = Tag::find($id);
         return response()->json([
-            'tags' => $tag
+            'data' => $tag,
+            'message' => 'etiqueta obtenida con éxito'
         ]);
     }
 
@@ -75,8 +76,8 @@ class TagController extends Controller
         $tag->save();
 
         return response()->json([
-            'message' =>'Etiqueta editada',
-            'tags' => $tag
+            'data' => $tag,
+            'message' => 'etiqueta editada con éxito'
         ],200);
 
     }
@@ -94,8 +95,7 @@ class TagController extends Controller
         $tag->save();
 
         return response()->json([
-            'message' => 'Etiqueta eliminada',
-            'tags' => $tag
+            'message' => 'etiqueta eliminada con éxito'
         ],200);
 
     }

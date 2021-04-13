@@ -20,14 +20,14 @@ class CategoryController extends Controller
 
         if ($categories) {
             return response()->json([
-                'message' => 'successful',
-                'data' => $categories
+                'data' => $categories,
+                'message' => 'categorías obtenidas con éxito'
             ], 200);
-        } else {
-            return response()->json([
-                'message' => 'source not found'
-            ], 404);
         }
+
+        return response()->json([
+            'message' => 'no se encontraron categorías'
+        ], 404);
     }
 
     /**
@@ -42,12 +42,11 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->name = $data['name'];
-        $category->deleted = false;
 
         $category->save();
 
         return response()->json([
-            'message' => 'category create'
+            'message' => 'categoría creada con éxito'
         ], 201);
     }
 
@@ -63,12 +62,12 @@ class CategoryController extends Controller
 
         if ($category) {
             return response()->json([
-                'message' => 'successful',
-                'data' => $category
+                'data' => $category,
+                'message' => 'categoría obtenida con éxito'
             ], 200);
         } else {
             return response()->json([
-                'message' => 'source not found'
+                'message' => 'no se encontró la categoría'
             ], 404);
         }
     }
@@ -87,16 +86,14 @@ class CategoryController extends Controller
         if ($category && $request->name != null) {
 
             $category->name = $request->name;
-            $category->deleted = false;
             $category->save();
 
             return response()->json([
-                'message' => 'category edited',
-                'data' => $category
+                'message' => 'categoría editada con éxito'
             ], 200);
         } else {
             return response()->json([
-                'message' => 'not found',
+                'message' => 'error al editar la categoría',
             ], 404);
         }
 
@@ -112,14 +109,15 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if ($category) {
-            $category->delete();
+            $category->deleted = true;
+            $category->save();
 
             return response()->json([
-                'message' => 'category deleted'
+                'message' => 'categoría eliminada con éxito'
             ], 204);
         } else {
             return response()->json([
-                'message' => 'not found',
+                'message' => 'error al eliminar la categoría'
             ], 200);
         }
     }
