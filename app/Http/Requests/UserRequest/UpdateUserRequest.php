@@ -12,7 +12,7 @@ class UpdateUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize():Boolean
+    public function authorize()
     {
         return true;
     }
@@ -38,6 +38,7 @@ class UpdateUserRequest extends FormRequest
             'name.min' => 'Mínimo 5 caracteres',
             'name.max' => 'Máximo  40 caracteres',
             'email.required' => 'Se requiere un email',
+            'email.unique:users,email' => 'email ya registrado',
             'password.required' => 'Se requiere una contraseña',
             'password.min' => 'Mínimo 7 caracteres'
         ];

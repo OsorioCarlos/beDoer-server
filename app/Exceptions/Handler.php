@@ -11,6 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -44,6 +45,17 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+
+        if ($e instanceof AuthenticationException) {
+            return response()->json([
+                'data' => $e->getMessage(),
+                'msg' => [
+                    'summary' => 'No Autenticado',
+                    'detail' => '',
+                    'code' => '401',
+                ]], 401);
+        }
+
         if ($e instanceof HttpException) {
             return response()->json([
                 'data' => $e->getMessage(),
@@ -52,6 +64,45 @@ class Handler extends ExceptionHandler
                     'detail' => '',
                     'code' => '404',
                 ]], 404);
+        }
+
+        if ($e instanceof QueryException) {
+            return response()->json([
+                'data' => $e->getMessage(),
+                'msg' => [
+                    'summary' => 'Error en la consulta',
+                    'detail' => 'Comunicate con el administrador',
+                    'code' => '400s',
+                ]], 400);
+        }
+
+        if ($e instanceof ModelNotFoundException) {
+            return response()->json([
+                'data' => $e->getMessage(),
+                'msg' => [
+                    'summary' => 'Error en la consulta',
+                    'detail' => 'Comunicate con el administrador',
+                    'code' => '400 model',
+                ]], 400);
+        }
+
+        if ($e instanceof ValidationException) {
+            return response()->json([
+                'data' => $e->errors(),
+                'msg' => [
+                    'summary' => 'Error en la validacion de campos',
+                    'detail' => 'Intente de nuevo'
+                ]], 400);
+        }
+
+        if ($e instanceof \Error) {
+            return response()->json([
+                'data' => $e->getMessage(),
+                'msg' => [
+                    'summary' => 'Oops! Tuvimos un problema con el servidor',
+                    'detail' => 'Comnicate con el administrador',
+                    'code' => '500',
+                ]], 500);
         }
 
         return response()->json([

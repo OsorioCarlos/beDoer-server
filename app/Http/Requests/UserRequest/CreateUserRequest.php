@@ -37,8 +37,9 @@ class CreateUserRequest extends FormRequest
             'name.min' => 'Mínimo 5 caracteres',
             'name.max' => 'Máximo  40 caracteres',
             'email.required' => 'Se requiere un email',
+            'email.unique' => 'Este email ya existe',
             'password.required' => 'Se requiere una contraseña',
-            'password.min' => 'Mínimo 7 caracteres'
+            'password.min' => 'Mínimo 7 caracteres '
         ];
     }
 

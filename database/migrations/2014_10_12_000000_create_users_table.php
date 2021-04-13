@@ -19,8 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->comment('Correo electrónico de usuario')->unique();
             $table->timestamp('email_verified_at')->comment('Fecha de verificación de correo')->nullable();
             $table->string('password')->comment('Contraseña de usuario');
-            $table->string('api_token')->comment('Token de usuario')->nullable()->unique();
-            $table->boolean('deleted')->comment('Eliminado lógico')->default(false);
+            $table->boolean('deleted')->comment('Eliminado lógico, true=eliminado, false=vigente')->default(false);
             $table->rememberToken()->comment('Acompaña al toquen de usuario');
             $table->timestamps();
         });
