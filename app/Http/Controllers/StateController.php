@@ -20,6 +20,6 @@ class StateController extends Controller
         return response()->json([
             'data' => $states,
             'message' => 'estados obtenidos con éxito'
-        ]);
+        ], 200);
     }
 }

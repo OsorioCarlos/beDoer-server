@@ -25,10 +25,10 @@ Route::post('logout', [UserController::class, 'logout']);
 //Route::apiResource('users', UserController::class)->except('store');
 
 Route::apiResource('users', UserController::class)->except('store');
-Route::get('categories', [CategoryController::class, 'index']);
 
 /* Rutas Task */
 Route::apiResource('tasks', TaskController::class);
+
 Route::group(['prefix' => 'team-tasks'], function () {
     Route::get('{id}', [TaskController::class, 'indexTeamTasks']);
     Route::post('', [TaskController::class, 'storeTeamTasks']);
@@ -37,6 +37,12 @@ Route::group(['prefix' => 'user-tasks'], function () {
     Route::get('{id}', [TaskController::class, 'indexUserTasks']);
     Route::post('', [TaskController::class, 'storeUserTasks']);
 });
+
+/* Rutas Teams */
+Route::apiResource('teams', TeamController::class);
+
+/* ruta para miembros de un equipo */
+Route::apiResource('members', MemberController::class);
 
 /* Rutas Role  */
 Route::apiResource('roles', RoleController::class);
@@ -47,8 +53,5 @@ Route::apiResource('tags', TagController::class);
 /* ruta para estados */
 Route::get('states', [StateController::class, 'getStates']);
 
-/* ruta para miembros de un equipo */
-Route::get('members/{id}', [MemberController::class, 'getMembers']);
-
-/* Rutas Teams */
-Route::apiResource('teams', TeamController::class);
+/* ruta para categorías */
+Route::get('categories', [CategoryController::class, 'index']);

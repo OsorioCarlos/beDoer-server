@@ -20,7 +20,7 @@ class TeamController extends Controller
         return response()->json([
             'data' => $teams,
             'message' => 'equipos obtenidos con éxito'
-        ]);
+        ], 200);
     }
 
     /**
@@ -37,11 +37,11 @@ class TeamController extends Controller
 
         $team->save();
 
-        $team->users()->attach($request->input('user_id'), ['team_id' => $team->id]);
+        $team->users()->attach($request->input('user_id'), ['team_id' => $team->id, 'is_member' => false]);
 
         return response()->json([
             'message' => 'equipo creado con éxito'
-        ]);
+        ], 201);
     }
 
     /**
@@ -52,12 +52,16 @@ class TeamController extends Controller
     public function show($id)
     {
         $user = User::findOrfail($id);
-        $teams = $user->teams()->where('teams.deleted', false)->get();
+
+        // Mis equipos
+        $my_teams = $user->teams()->where('is_member', false)->get();
+        // Equipos a los que pertenezco
+        $other_teams = $user->teams()->where('is_member', true)->get();
 
         return response()->json([
-            'data' => $teams,
+            'data' => ['my_teams' => $my_teams, 'other_teams'=> $other_teams],
             'message' => 'equipos obtenidos con éxito'
-        ]);
+        ], 200);
     }
 
     /**
@@ -76,7 +80,7 @@ class TeamController extends Controller
 
         return response()->json([
             'message' => 'equipo editado con éxito'
-        ]);
+        ], 201);
     }
 
     /**
@@ -92,7 +96,6 @@ class TeamController extends Controller
 
         return response()->json([
             'message' => 'equipo eliminado con éxito'
-        ]);
+        ], 200);
     }
-
 }

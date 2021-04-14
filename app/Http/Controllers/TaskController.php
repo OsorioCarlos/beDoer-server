@@ -24,7 +24,7 @@ class TaskController extends Controller
         return response()->json([
             'data' => $tasks,
             'message' => 'tareas de usuario obtenidas con éxito'
-        ]);
+        ], 200);
     }
 
      /**
@@ -41,7 +41,7 @@ class TaskController extends Controller
         return response()->json([
             'data' => $tasks,
             'message' => 'tareas de equipo obtenidas con éxito'
-        ]);
+        ], 200);
     }
 
     /**
@@ -138,7 +138,7 @@ class TaskController extends Controller
 
         return response()->json([
             'message' => 'tarea eliminada con éxito'
-        ]);
+        ], 200);
     }
 
 
