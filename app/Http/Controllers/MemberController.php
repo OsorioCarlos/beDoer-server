@@ -15,7 +15,7 @@ class MemberController extends Controller
     public function show($id)
     {
         $team = Team::find($id);
-        $users = $team->users()->where('team_user.deleted', false)->get();
+        $users = $team->users()->get();
 
         return response()->json([
             'data' => $users,
