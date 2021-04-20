@@ -39,13 +39,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Joel',
             'email' => 'joel@test.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('159'),
-            'remember_token' => Str::random(10)
+            'password' => bcrypt('1234567')
         ]);
         User::factory(10)->create()->each(function ($user) {
             $number_tasks = rand(1, 11);
 
-            for ($i=0; $i < $number_tasks; $i++) { 
+            for ($i=0; $i < $number_tasks; $i++) {
                 $user->tasks()->save(Task::factory()->make());
             }
         });
@@ -53,11 +52,11 @@ class DatabaseSeeder extends Seeder
         Team::factory(5)->create()->each(function ($team) {
             $number_tasks = rand(1, 11);
 
-            for ($i=0; $i < $number_tasks; $i++) { 
+            for ($i=0; $i < $number_tasks; $i++) {
                 $team->tasks()->save(Task::factory()->make());
             }
 
-            $team->users()->attach($this->array(rand(2, 11))); 
+            $team->users()->attach($this->array(rand(2, 11)));
         });
     }
 
@@ -65,7 +64,7 @@ class DatabaseSeeder extends Seeder
     {
         $values = [];
 
-        for ($i=2; $i <= $max; $i++) { 
+        for ($i=2; $i <= $max; $i++) {
             $values[] = $i;
         }
 

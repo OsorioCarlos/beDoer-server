@@ -47,13 +47,14 @@ class UserController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = $data['password'] = Hash::make($request->password);
-
-        $user->password = $data['password'] = Hash::make($request->password);
-//        User::create($user);
         $user->save();
 
+        $userCreted = User::where('email', $request->email)->where('deleted', false)->first();
+        $token = $userCreted->createToken('user-token');
+
         return response()->json([
-            'message' => 'usuario creado con éxito'
+            'message' => 'usuario creado con éxito',
+            'token' => $token->plainTextToken,
         ], 201);
     }
 
