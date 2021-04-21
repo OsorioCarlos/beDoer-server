@@ -50,8 +50,12 @@ class UserController extends Controller
         
         $user->save();
 
+        $userCreted = User::where('email', $request->email)->where('deleted', false)->first();
+        $token = $userCreted->createToken('user-token');
+
         return response()->json([
-            'message' => 'usuario creado con éxito'
+            'message' => 'usuario creado con éxito',
+            'token' => $token->plainTextToken,
         ], 201);
     }
 
