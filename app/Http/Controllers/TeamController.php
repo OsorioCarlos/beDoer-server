@@ -73,7 +73,7 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
-        $team-> name = $request->input('name');
+        $team->name = $request->input('name');
         $team->description = $request->input('description');
 
         $team->save();

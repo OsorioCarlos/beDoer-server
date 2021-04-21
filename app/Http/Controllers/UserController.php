@@ -47,9 +47,7 @@ class UserController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = $data['password'] = Hash::make($request->password);
-
-        $user->password = $data['password'] = Hash::make($request->password);
-//        User::create($user);
+        
         $user->save();
 
         return response()->json([
@@ -74,6 +72,7 @@ class UserController extends Controller
 
             return response()->json([
                 'token' => $token->plainTextToken,
+                'identification' => $user->id,
                 'message' => 'usuario logueado con éxito',
             ], 200);
         }
