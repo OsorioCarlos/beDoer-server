@@ -184,6 +184,7 @@ class UserController extends Controller
      */
     public function test(Request $request)
     {
+//        hola carlos
         return $request->user();
     }
 
