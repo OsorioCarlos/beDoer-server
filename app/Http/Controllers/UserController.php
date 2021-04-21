@@ -95,7 +95,7 @@ class UserController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $user = auth()->user();
+        $user = $request->user();
         $user->tokens()->delete();
 
         return response()->json([
@@ -141,7 +141,7 @@ class UserController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
 
-        if ($user->password != null){
+        if ($user->password != null) {
             $user->password = $data['password'] = Hash::make($request->password);
         } else {
             unset($data['password']);
@@ -176,6 +176,18 @@ class UserController extends Controller
         return response()->json([
             'message' => 'error al eliminar el usuario',
         ], 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function test(Request $request)
+    {
+//        hola carlos
+        return $request->user();
     }
 
 }
