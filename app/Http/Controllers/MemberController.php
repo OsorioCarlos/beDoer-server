@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -18,7 +19,10 @@ class MemberController extends Controller
         $users = $team->users()->get();
 
         return response()->json([
-            'data' => $users,
+            'data' => [
+                'team' => $team,
+                'members' => $users
+            ],
             'message' => 'miembros obtenidos con éxito'
         ], 200);
     }
@@ -32,7 +36,8 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $team = Team::findOrFail($request->input('team_id'));
-        $team->users()->attach($request->input('user_id'));
+        $user = User::where('email', $request->input('user_email'))->get();
+        $team->users()->attach($user);
 
         return response()->json([
             'message' => 'miembro agregado con éxito'

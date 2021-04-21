@@ -15,6 +15,8 @@ class TeamController extends Controller
      */
     public function index()
     {   
+        // $request->user();
+
         $teams = Team::all();
 
         return response()->json([
@@ -54,7 +56,7 @@ class TeamController extends Controller
         $user = User::findOrfail($id);
 
         // Mis equipos
-        $my_teams = $user->teams()->where('is_member', false)->get();
+        $my_teams = $user->teams()->where('is_member', false)->where('deleted', false)->get();
         // Equipos a los que pertenezco
         $other_teams = $user->teams()->where('is_member', true)->get();
 
