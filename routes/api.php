@@ -18,11 +18,10 @@ use Illuminate\Support\Facades\Route;
 | Rutas de la Rest Api de Be-Doer
 |
 */
-
 Route::post('login', [UserController::class, 'login'])->withoutMiddleware('auth:api');
 Route::post('register', [UserController::class, 'store'])->withoutMiddleware('auth:api');
 Route::post('logout', [UserController::class, 'logout']);
-//Route::apiResource('users', UserController::class)->except('store');
+Route::post('test', [UserController::class, 'test']);
 
 Route::apiResource('users', UserController::class)->except('store');
 

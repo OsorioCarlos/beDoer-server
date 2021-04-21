@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -27,7 +27,7 @@ class TaskController extends Controller
         ], 200);
     }
 
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -47,11 +47,13 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function storeUserTasks(Request $request)
     {
+        $user = $request->user();
+
         $user = User::findOrFail($request->input('user_id'));
 
         $task = new Task();
@@ -70,7 +72,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function storeTeamTasks(Request $request)
@@ -89,11 +91,11 @@ class TaskController extends Controller
             'message' => 'tarea de equipo creada con éxito'
         ], 201);
     }
-    
+
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Task  $task
+     * @param \App\Models\Task $task
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Task $task)
@@ -107,8 +109,8 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Task $task
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Task $task)
@@ -117,7 +119,7 @@ class TaskController extends Controller
         $task->description = $request->input('description');
         $task->expiration_date = $request->input('expiration_date');
         $task->state()->associate(State::findOrFail($request->input('state_id')));
-        
+
         $task->save();
 
         return response()->json([
@@ -128,7 +130,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Task  $task
+     * @param \App\Models\Task $task
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Task $task)
@@ -140,6 +142,4 @@ class TaskController extends Controller
             'message' => 'tarea eliminada con éxito'
         ], 200);
     }
-
-
 }
