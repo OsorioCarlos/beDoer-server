@@ -109,9 +109,9 @@ class UserController extends Controller
      * @param $name
      * @return JsonResponse
      */
-    public function show($name): JsonResponse
+    public function show($id): JsonResponse
     {
-        $user = User::where('name', $name)->where('deleted', false)->first();
+        $user = User::find($id);
 
         if ($user) {
             return response()->json([
