@@ -54,7 +54,12 @@ class MemberController extends Controller
     public function update(Request $request, $id)
     {
         $team = Team::findOrFail($id);
-        $team->users()->detach($request->input('user_id'));
+
+        if ($request->input('user_id') == 0) {
+            $team->users()->detach($request->user());
+        } else {
+            $team->users()->detach($request->input('user_id'));
+        }
 
         return response()->json([
             'message' => 'miembro removido con éxito'

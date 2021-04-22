@@ -11,16 +11,20 @@ class TeamController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {   
-        // $request->user();
+        $user = $request->user();
 
-        $teams = Team::all();
+        // Mis equipos
+        $my_teams = $user->teams()->where('is_member', false)->where('deleted', false)->get();
+        // Equipos a los que pertenezco
+        $other_teams = $user->teams()->where('is_member', true)->where('deleted', false)->get();
 
         return response()->json([
-            'data' => $teams,
+            'data' => ['my_teams' => $my_teams, 'other_teams'=> $other_teams],
             'message' => 'equipos obtenidos con éxito'
         ], 200);
     }
@@ -39,7 +43,7 @@ class TeamController extends Controller
 
         $team->save();
 
-        $team->users()->attach($request->input('user_id'), ['team_id' => $team->id, 'is_member' => false]);
+        $team->users()->attach($request->user(), ['team_id' => $team->id, 'is_member' => false]);
 
         return response()->json([
             'message' => 'equipo creado con éxito'
@@ -49,20 +53,14 @@ class TeamController extends Controller
     /**
      * Display the specified resource.
      *
+     *  @param  Team  $team
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($team)
     {
-        $user = User::findOrfail($id);
-
-        // Mis equipos
-        $my_teams = $user->teams()->where('is_member', false)->where('deleted', false)->get();
-        // Equipos a los que pertenezco
-        $other_teams = $user->teams()->where('is_member', true)->get();
-
         return response()->json([
-            'data' => ['my_teams' => $my_teams, 'other_teams'=> $other_teams],
-            'message' => 'equipos obtenidos con éxito'
+            'data' => null,
+            'message' => 'no data'
         ], 200);
     }
 

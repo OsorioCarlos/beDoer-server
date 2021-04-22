@@ -17,14 +17,14 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $users = User::where('deleted', false)->get();
+        $user = $request->user();
 
-        if (!is_null($users)) {
+        if (!is_null($user)) {
             return response()->json([
-                'data' => $users,
-                'message' => 'usuarios obtenidos con éxito'
+                'data' => $user,
+                'message' => 'usuario obtenido con éxito'
             ], 200);
         }
 
@@ -76,7 +76,6 @@ class UserController extends Controller
 
             return response()->json([
                 'token' => $token->plainTextToken,
-                'identification' => $user->id,
                 'message' => 'usuario logueado con éxito',
             ], 200);
         }
@@ -106,24 +105,15 @@ class UserController extends Controller
 
     /**
      * Visualizacion de un suario por nombre.
-     * @param $name
+     * @param User $user
      * @return JsonResponse
      */
-    public function show($id): JsonResponse
+    public function show(User $user): JsonResponse
     {
-        $user = User::find($id);
-
-        if ($user) {
-            return response()->json([
-                'data' => $user,
-                'message' => 'usuario obtenido con éxito'
-            ], 200);
-        }
-
         return response()->json([
-            'data' => $user,
-            'message' => 'no se encontró al usuario'
-        ], 404);
+            'data' => null,
+            'message' => 'no data'
+        ], 200);
     }
 
     /**
@@ -186,7 +176,6 @@ class UserController extends Controller
      */
     public function test(Request $request)
     {
-//        hola carlos
         return $request->user();
     }
 

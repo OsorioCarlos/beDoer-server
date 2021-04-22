@@ -35,7 +35,7 @@ Route::group(['prefix' => 'team-tasks'], function () {
     Route::post('', [TaskController::class, 'storeTeamTasks']);
 });
 Route::group(['prefix' => 'user-tasks'], function () {
-    Route::get('{id}', [TaskController::class, 'indexUserTasks']);
+    Route::get('', [TaskController::class, 'indexUserTasks']);
     Route::post('', [TaskController::class, 'storeUserTasks']);
 });
 

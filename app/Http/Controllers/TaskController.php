@@ -12,13 +12,14 @@ class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * 
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function indexUserTasks($id)
+    public function indexUserTasks(Request $request)
     {
-        $user = User::find($id);
+        $user = $request->user();
         $tasks = $user->tasks()->where('deleted', false)->get();
 
         return response()->json([
@@ -53,8 +54,6 @@ class TaskController extends Controller
     public function storeUserTasks(Request $request)
     {
         $user = $request->user();
-
-        $user = User::findOrFail($request->input('user_id'));
 
         $task = new Task();
         $task->title = $request->input('title');
