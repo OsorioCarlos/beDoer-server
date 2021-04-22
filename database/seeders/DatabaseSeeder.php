@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt('1234567')
         ]);
+
         User::factory(10)->create()->each(function ($user) {
             $number_tasks = rand(1, 11);
 

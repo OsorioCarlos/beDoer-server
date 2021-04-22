@@ -20,8 +20,10 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('login', [UserController::class, 'login'])->withoutMiddleware('auth:api');
 Route::post('register', [UserController::class, 'store'])->withoutMiddleware('auth:api');
-Route::post('logout', [UserController::class, 'logout']);
+Route::get('logout', [UserController::class, 'logout']);
 Route::post('test', [UserController::class, 'test']);
+    Route::get('get-user-task', [UserController::class, 'getTasks']);
+
 
 Route::apiResource('users', UserController::class)->except('store');
 

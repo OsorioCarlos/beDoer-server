@@ -47,7 +47,7 @@ class UserController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = $data['password'] = Hash::make($request->password);
-        
+
         $user->save();
 
         $userCreted = User::where('email', $request->email)->where('deleted', false)->first();
@@ -188,6 +188,24 @@ class UserController extends Controller
     {
 //        hola carlos
         return $request->user();
+    }
+
+    public function getTasks(Request $request)
+    {
+        $user = User::find($request->user()->id);
+        $tasks = $user->tasks()->where('deleted', false)->get();
+
+        if (is_null($tasks) || empty($tasks) || sizeof($tasks) == 0) {
+            return response()->json([
+                'data' => null,
+                'message' => 'no hay tareas'
+            ], 200);
+        } else {
+            return response()->json([
+                'data' => $tasks,
+                'message' => 'tareas de usuario obtenidas con éxito'
+            ], 200);
+        }
     }
 
 }
