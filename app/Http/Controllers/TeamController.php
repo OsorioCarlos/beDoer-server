@@ -19,9 +19,9 @@ class TeamController extends Controller
         $user = $request->user();
 
         // Mis equipos
-        $my_teams = $user->teams()->where('is_member', false)->where('deleted', false)->get();
+        $my_teams = $user->teams()->where('leader_id', $user->id)->where('deleted', false)->get();
         // Equipos a los que pertenezco
-        $other_teams = $user->teams()->where('is_member', true)->where('deleted', false)->get();
+        $other_teams = $user->teams()->where('leader_id', '<>', $user->id)->where('deleted', false)->get();
 
         return response()->json([
             'data' => ['my_teams' => $my_teams, 'other_teams'=> $other_teams],
@@ -40,10 +40,11 @@ class TeamController extends Controller
         $team = new Team();
         $team->name = $request->input('name');
         $team->description = $request->input('description');
-
+        $team->leader()->associate($request->user());
+        
         $team->save();
 
-        $team->users()->attach($request->user(), ['team_id' => $team->id, 'is_member' => false]);
+        $team->users()->attach($request->user());
 
         return response()->json([
             'message' => 'equipo creado con éxito'

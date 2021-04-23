@@ -23,7 +23,8 @@ class TeamFactory extends Factory
     {
         return [
             'name' => $this->faker->company,
-            'description' => $this->faker->text($maxNbChars = 50)
+            'description' => $this->faker->text($maxNbChars = 50),
+            'leader_id' => 2
         ];
     }
 }

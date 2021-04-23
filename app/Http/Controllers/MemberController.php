@@ -13,17 +13,23 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $team = Team::find($id);
-        $users = $team->users()->get();
 
+        if ($team->leader_id == $request->user()->id) {
+            $users = $team->users()->get();
+            return response()->json([
+                'data' => [
+                    'team' => $team,
+                    'members' => $users,
+                ],
+                'message' => 'miembros obtenidos con éxito'
+            ], 200);
+        }
         return response()->json([
-            'data' => [
-                'team' => $team,
-                'members' => $users
-            ],
-            'message' => 'miembros obtenidos con éxito'
+            'data' => null,
+            'message' => 'no tienes acceso a esta información'
         ], 200);
     }
 
