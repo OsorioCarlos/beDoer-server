@@ -20,7 +20,6 @@ class CreateTeamUserTable extends Migration
             // $table->foreignId('role_id')->constrained('roles')
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
-            $table->boolean('is_member')->comment('Es un miembro')->default(true);
         });
     }
 

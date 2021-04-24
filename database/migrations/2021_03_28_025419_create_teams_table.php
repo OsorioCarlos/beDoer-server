@@ -17,6 +17,7 @@ class CreateTeamsTable extends Migration
             $table->id();
             $table->string('name')->comment('Nombre del equipo');
             $table->string('description')->comment('Descripción para el equipo')->nullable();
+            $table->foreignId('leader_id')->comment('Líder del equipo')->constrained('users');
             $table->boolean('deleted')->comment('Eliminado lógico')->default(false);
             $table->timestamps();
         });
