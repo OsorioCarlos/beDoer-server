@@ -4,34 +4,50 @@ namespace App\Http\Controllers;
 
 use App\Models\State;
 use App\Models\Task;
-use App\Models\User;
 use App\Models\Team;
+
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * 
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param Request $request
+     * @param $state
+     * @return JsonResponse
      */
 
-    public function indexUserTasks(Request $request)
+    public function indexUserTasks(Request $request, $state): JsonResponse
     {
         $user = $request->user();
-        $tasks = $user->tasks()->where('deleted', false)->get();
+        $tasks = $user->tasks()
+            ->where('deleted', false)
+            ->where('state_id', $state)
+            ->get();
+
+        $tasksNotState = $user->tasks()->where('state_id', 1)->count();
+        $tasksToDo = $user->tasks()->where('state_id', 2)->count();
+        $tasksDoing = $user->tasks()->where('state_id', 3)->count();
+        $tasksDone = $user->tasks()->where('state_id', 4)->count();
 
         return response()->json([
             'data' => $tasks,
-            'message' => 'tareas de usuario obtenidas con éxito'
+            'totalStates' => [
+                'tasksNotState' =>$tasksNotState,
+                'tasksToDo' => $tasksToDo,
+                'tasksDoing' => $tasksDoing,
+                'tasksDone' => $tasksDone
+            ],
+            'message' => 'Tareas de usuario obtenidas con éxito'
         ], 200);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
 
     public function indexTeamTasks($id)
@@ -48,10 +64,10 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function storeUserTasks(Request $request)
+    public function storeUserTasks(storeUserTasks $request): JsonResponse
     {
         $user = $request->user();
 
@@ -71,8 +87,8 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function storeTeamTasks(Request $request)
     {
@@ -95,7 +111,7 @@ class TaskController extends Controller
      * Display the specified resource.
      *
      * @param \App\Models\Task $task
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(Task $task)
     {
@@ -108,9 +124,9 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param \App\Models\Task $task
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(Request $request, Task $task)
     {
@@ -130,7 +146,7 @@ class TaskController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Models\Task $task
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function destroy(Task $task)
     {

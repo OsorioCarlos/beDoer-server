@@ -22,7 +22,6 @@ Route::post('login', [UserController::class, 'login'])->withoutMiddleware('auth:
 Route::post('register', [UserController::class, 'store'])->withoutMiddleware('auth:api');
 Route::get('logout', [UserController::class, 'logout']);
 Route::post('test', [UserController::class, 'test']);
-    Route::get('get-user-task', [UserController::class, 'getTasks']);
 
 
 Route::apiResource('users', UserController::class)->except('store');
@@ -35,7 +34,7 @@ Route::group(['prefix' => 'team-tasks'], function () {
     Route::post('', [TaskController::class, 'storeTeamTasks']);
 });
 Route::group(['prefix' => 'user-tasks'], function () {
-    Route::get('', [TaskController::class, 'indexUserTasks']);
+    Route::get('index/{state}', [TaskController::class, 'indexUserTasks']);
     Route::post('', [TaskController::class, 'storeUserTasks']);
 });
 

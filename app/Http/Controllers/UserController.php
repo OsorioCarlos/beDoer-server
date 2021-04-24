@@ -168,34 +168,5 @@ class UserController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function test(Request $request)
-    {
-        return $request->user();
-    }
-
-    public function getTasks(Request $request)
-    {
-        $user = User::find($request->user()->id);
-        $tasks = $user->tasks()->where('deleted', false)->get();
-
-        if (is_null($tasks) || empty($tasks) || sizeof($tasks) == 0) {
-            return response()->json([
-                'data' => null,
-                'message' => 'no hay tareas'
-            ], 200);
-        } else {
-            return response()->json([
-                'data' => $tasks,
-                'message' => 'tareas de usuario obtenidas con éxito'
-            ], 200);
-        }
-    }
-
 }
 
