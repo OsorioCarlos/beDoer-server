@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class TaskController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * retorna las tareas del usuario segun el estado de la tarea
      *
      * @param Request $request
      * @param $state
