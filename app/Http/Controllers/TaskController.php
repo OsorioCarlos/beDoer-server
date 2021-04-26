@@ -19,7 +19,6 @@ class TaskController extends Controller
      * @param $state
      * @return JsonResponse
      */
-
     public function indexUserTasks(Request $request, $state): JsonResponse
     {
         $user = $request->user();
@@ -28,10 +27,10 @@ class TaskController extends Controller
             ->where('state_id', $state)
             ->get();
 
-        $tasksNotState = $user->tasks()->where('state_id', 1)->count();
-        $tasksToDo = $user->tasks()->where('state_id', 2)->count();
-        $tasksDoing = $user->tasks()->where('state_id', 3)->count();
-        $tasksDone = $user->tasks()->where('state_id', 4)->count();
+        $tasksNotState = $user->tasks()->where('state_id', 1)->where('deleted', false)->count();
+        $tasksToDo = $user->tasks()->where('state_id', 2)->where('deleted', false)->count();
+        $tasksDoing = $user->tasks()->where('state_id', 3)->where('deleted', false)->count();
+        $tasksDone = $user->tasks()->where('state_id', 4)->where('deleted', false)->count();
 
         return response()->json([
             'data' => $tasks,
