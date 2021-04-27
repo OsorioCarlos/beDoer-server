@@ -30,7 +30,7 @@ Route::apiResource('users', UserController::class)->except('store');
 Route::apiResource('tasks', TaskController::class);
 
 Route::group(['prefix' => 'team-tasks'], function () {
-    Route::get('{id}', [TaskController::class, 'indexTeamTasks']);
+    Route::get('{id}/{state}', [TaskController::class, 'indexTeamTasks']);
     Route::post('', [TaskController::class, 'storeTeamTasks']);
 });
 Route::group(['prefix' => 'user-tasks'], function () {
