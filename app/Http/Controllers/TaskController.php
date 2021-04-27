@@ -35,7 +35,7 @@ class TaskController extends Controller
         return response()->json([
             'data' => $tasks,
             'totalStates' => [
-                'tasksNotState' =>$tasksNotState,
+                'tasksNotState' => $tasksNotState,
                 'tasksToDo' => $tasksToDo,
                 'tasksDoing' => $tasksDoing,
                 'tasksDone' => $tasksDone
@@ -50,13 +50,27 @@ class TaskController extends Controller
      * @return JsonResponse
      */
 
-    public function indexTeamTasks($id)
+    public function indexTeamTasks($id, $state)
     {
         $team = Team::find($id);
-        $tasks = $team->tasks()->where('deleted', false)->get();
+        $tasks = $team->tasks()
+            ->where('deleted', false)
+            ->where('state_id', $state)
+            ->get();
+
+        $NotState = $team->tasks()->where('state_id', 1)->where('deleted', false)->count();
+        $ToDo = $team->tasks()->where('state_id', 2)->where('deleted', false)->count();
+        $Doing = $team->tasks()->where('state_id', 3)->where('deleted', false)->count();
+        $Done = $team->tasks()->where('state_id', 4)->where('deleted', false)->count();
 
         return response()->json([
             'data' => $tasks,
+            'totalStates' => [
+                'tasksNotState' => $NotState,
+                'tasksToDo' => $ToDo,
+                'tasksDoing' => $Doing,
+                'tasksDone' => $Done
+            ],
             'message' => 'tareas de equipo obtenidas con éxito'
         ], 200);
     }
