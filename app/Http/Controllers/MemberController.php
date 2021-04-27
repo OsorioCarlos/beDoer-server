@@ -30,7 +30,7 @@ class MemberController extends Controller
         return response()->json([
             'data' => null,
             'message' => 'no tienes acceso a esta información'
-        ], 200);
+        ], 403);
     }
 
      /**
@@ -43,11 +43,19 @@ class MemberController extends Controller
     {
         $team = Team::findOrFail($request->input('team_id'));
         $user = User::where('email', $request->input('user_email'))->get();
-        $team->users()->attach($user);
+        
+        if($user->contains('email', $request->input('user_email')))
+        {
+            $team->users()->attach($user);
+
+            return response()->json([
+                'message' => 'miembro agregado con éxito'
+            ], 201);
+        }
 
         return response()->json([
-            'message' => 'miembro agregado con éxito'
-        ], 201);
+            'message' => 'no se pudo agregar al miembro'
+        ], 400);
     }
     
     /**

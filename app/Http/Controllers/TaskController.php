@@ -47,18 +47,29 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     * @param $id
      * @return JsonResponse
      */
 
-    public function indexTeamTasks($id)
+    public function indexTeamTasks(Request $request, $id)
     {
         $team = Team::find($id);
-        $tasks = $team->tasks()->where('deleted', false)->get();
+        $members = $team->users()->get();
 
+        if ($members->contains($request->user())) {
+            $tasks = $team->tasks()->where('deleted', false)->get();
+            
+            return response()->json([
+                'data' => $tasks,
+                'message' => 'tareas de equipo obtenidas con éxito'
+            ], 200);
+        }
+        
         return response()->json([
-            'data' => $tasks,
-            'message' => 'tareas de equipo obtenidas con éxito'
-        ], 200);
+            'data' => null,
+            'message' => 'no tienes acceso a esta información'
+        ], 403);
     }
 
     /**
