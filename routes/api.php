@@ -32,7 +32,9 @@ Route::apiResource('tasks', TaskController::class);
 Route::group(['prefix' => 'team-tasks'], function () {
     Route::get('{id}/{state}', [TaskController::class, 'indexTeamTasks']);
     Route::post('', [TaskController::class, 'storeTeamTasks']);
+    Route::put('change-states', [TaskController::class, 'changeState']);
 });
+
 Route::group(['prefix' => 'user-tasks'], function () {
     Route::get('index/{state}', [TaskController::class, 'indexUserTasks']);
     Route::post('', [TaskController::class, 'storeUserTasks']);

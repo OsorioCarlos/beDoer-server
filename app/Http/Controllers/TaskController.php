@@ -7,6 +7,7 @@ use App\Models\State;
 use App\Models\Task;
 use App\Models\Team;
 
+use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -89,7 +90,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param storeUserTgit asks $request
+     * @param storeUserTasks $request
      * @return JsonResponse
      */
     public function storeUserTasks(storeUserTasks $request): JsonResponse
@@ -135,7 +136,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Task $task
+     * @param Task $task
      * @return JsonResponse
      */
     public function show(Task $task)
@@ -150,7 +151,7 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param \App\Models\Task $task
+     * @param Task $task
      * @return JsonResponse
      */
     public function update(Request $request, Task $task)
@@ -170,7 +171,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Task $task
+     * @param Task $task
      * @return JsonResponse
      */
     public function destroy(Task $task)
@@ -181,5 +182,21 @@ class TaskController extends Controller
         return response()->json([
             'message' => 'tarea eliminada con éxito'
         ], 200);
+    }
+
+    public function changeState(Request $request){
+
+        $task = Task::find($request->input('id'));
+        $state = State::findOrFail($request->input('state_id'));
+        $task->state_id = $state->id;
+//        $state = State::findOrFail($request->input('state_id'));
+
+        $task->save();
+
+        return response()->json([
+            'data' => $state,
+            'dataA' => $task,
+            'message' => 'tarea editada con éxito',
+        ], 201);
     }
 }
