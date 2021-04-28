@@ -47,32 +47,43 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     * @param $id
      * @return JsonResponse
      */
 
-    public function indexTeamTasks($id,git  $state)
+    public function indexTeamTasks(Request $request, $id, $state)
     {
         $team = Team::find($id);
-        $tasks = $team->tasks()
+        $members = $team->users()->get();
+
+        if ($members->contains($request->user())) {
+            $tasks = $team->tasks()
             ->where('deleted', false)
             ->where('state_id', $state)
             ->get();
 
-        $NotState = $team->tasks()->where('state_id', 1)->where('deleted', false)->count();
-        $ToDo = $team->tasks()->where('state_id', 2)->where('deleted', false)->count();
-        $Doing = $team->tasks()->where('state_id', 3)->where('deleted', false)->count();
-        $Done = $team->tasks()->where('state_id', 4)->where('deleted', false)->count();
+            $NotState = $team->tasks()->where('state_id', 1)->where('deleted', false)->count();
+            $ToDo = $team->tasks()->where('state_id', 2)->where('deleted', false)->count();
+            $Doing = $team->tasks()->where('state_id', 3)->where('deleted', false)->count();
+            $Done = $team->tasks()->where('state_id', 4)->where('deleted', false)->count();
+
+            return response()->json([
+                'data' => $tasks,
+                'totalStates' => [
+                    'tasksNotState' => $NotState,
+                    'tasksToDo' => $ToDo,
+                    'tasksDoing' => $Doing,
+                    'tasksDone' => $Done
+                ],
+                'message' => 'tareas de equipo obtenidas con éxito'
+            ], 200);
+        }
 
         return response()->json([
-            'data' => $tasks,
-            'totalStates' => [
-                'tasksNotState' => $NotState,
-                'tasksToDo' => $ToDo,
-                'tasksDoing' => $Doing,
-                'tasksDone' => $Done
-            ],
-            'message' => 'tareas de equipo obtenidas con éxito'
-        ], 200);
+            'data' => null,
+            'message' => 'no tienes acceso a esta información'
+        ], 403);
     }
 
     /**
