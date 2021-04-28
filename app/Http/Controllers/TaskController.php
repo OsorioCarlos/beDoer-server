@@ -50,7 +50,7 @@ class TaskController extends Controller
      * @return JsonResponse
      */
 
-    public function indexTeamTasks($id, $state)
+    public function indexTeamTasks($id,git  $state)
     {
         $team = Team::find($id);
         $tasks = $team->tasks()
@@ -78,7 +78,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param storeUserTgit asks $request
      * @return JsonResponse
      */
     public function storeUserTasks(storeUserTasks $request): JsonResponse

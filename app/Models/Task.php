@@ -16,6 +16,10 @@ class Task extends Model
         'deleted'
     ];
 
+    protected $casts = [
+        'expiration_date' => 'date:Y-m-d',
+    ];
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);
@@ -45,4 +49,10 @@ class Task extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+//    public function setExpirationDateAttribute($value)
+//    {
+//        $this->attributes['expiration_date'] = strtolower($value);
+//    }
+
 }
